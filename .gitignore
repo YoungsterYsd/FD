@@ -51,6 +51,9 @@ Desktop.ini
 # Draw.io temp
 .drawio-tmp/
 
+# Project plans (local only)
+Plans/
+
 # Unreal Build Tool
 *.modules
 *.target
