@@ -1,0 +1,62 @@
+# ========================================
+# Unreal Engine 5 Project .gitignore
+# ========================================
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# Rider
+.idea/
+
+# Build outputs
+[Bb]inaries/
+[Bb]uild/
+[Ii]ntermediate/
+
+# Derived Data Cache
+DerivedDataCache/
+
+# Saved (logs, config, autosaves)
+[Ss]aved/
+
+# Content - exclude source art files
+Content/**/*.psd
+Content/**/*.tga
+Content/**/*.fbx
+Content/**/*.blend
+Content/**/*.maya
+Content/**/*.max
+
+# Pak files
+*.pak
+
+# Crash reports
+CrashReportClient/
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code
+.vscode/
+
+# OS files
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# Draw.io temp
+.drawio-tmp/
+
+# Unreal Build Tool
+*.modules
+*.target
+
+# Shader autogen
+ShaderAutogen/
+
+# Source control helper
+SourceControl/

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio-mcp" version="21.0.0">
+  <diagram name="A1-项目引导">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="8" guides="1" tooltips="1" arrows="1" fold="1" pageWidth="1100" pageHeight="780" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- ===== 标题 ===== -->
+        <mxCell id="title" value="A1 项目引导 —— FD 项目与 UE5.7 引擎依赖关系" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;fontColor=#1E40AF;" vertex="1" parent="1">
+          <mxGeometry x="32" y="16" width="600" height="28" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 第一层: FD 项目层 ===== -->
+        <mxCell id="sec1" value="FD 项目层" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#1E40AF;" vertex="1" parent="1">
+          <mxGeometry x="32" y="56" width="120" height="22" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n1" value="FD.uproject&#xa;[声明插件列表]" style="shape=document;boundedLbl=1;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#3B82F6;strokeWidth=2;fontSize=12;fontColor=#1E293B;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="440" y="56" width="160" height="56" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n2" value="FD.Build.cs&#xa;[声明模块依赖]" style="shape=document;boundedLbl=1;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#3B82F6;strokeWidth=2;fontSize=12;fontColor=#1E293B;arcSize=12;" vertex="1" parent="1">
+          <mxGeometry x="200" y="140" width="160" height="56" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n3" value="FD.h / FD.cpp&#xa;IMPLEMENT_PRIMARY_GAME_MODULE" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=2;fontSize=12;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="680" y="140" width="160" height="56" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 第二层: 引擎插件层 ===== -->
+        <mxCell id="sec2" value="引擎插件层 (Plugins)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#1E40AF;" vertex="1" parent="1">
+          <mxGeometry x="32" y="240" width="180" height="22" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n4" value="GameplayAbilities&#xa;技能系统核心" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="40" y="270" width="100" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n5" value="EnhancedInput&#xa;增强输入" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="172" y="270" width="100" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n6" value="CommonUI&#xa;跨平台 UI" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="304" y="270" width="100" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n7" value="ModularGameplay&#xa;Actors" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="436" y="270" width="100" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n8" value="GameFeatures&#xa;功能插件化" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="568" y="270" width="100" height="48" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n9" value="GameplayMessageRouter&#xa;UIExtension&#xa;GameSettings&#xa;CommonLoadingScreen..." style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=9;fontColor=#64748B;" vertex="1" parent="1">
+          <mxGeometry x="700" y="262" width="140" height="64" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 第三层: 引擎模块层 ===== -->
+        <mxCell id="sec3" value="引擎模块层 (Build.cs 依赖)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#1E40AF;" vertex="1" parent="1">
+          <mxGeometry x="32" y="370" width="220" height="22" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n10" value="Core / CoreUObject&#xa;Engine / InputCore" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="40" y="400" width="130" height="52" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n11" value="GameplayTags&#xa;ModularGameplay" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="210" y="400" width="130" height="52" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n12" value="GameplayAbilities&#xa;GameplayTasks&#xa;EnhancedInput&#xa;UMG / CommonUI" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="380" y="400" width="150" height="52" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n13" value="AIModule / Niagara&#xa;DataRegistry&#xa;SignificanceManager" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;" vertex="1" parent="1">
+          <mxGeometry x="570" y="400" width="150" height="52" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 连线: 项目文件间 ===== -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n1" target="n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1l" value="引用模块" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#64748B;" connectable="0" vertex="1" parent="e1">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n2" target="n3">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2l" value="编译产出" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#64748B;" connectable="0" vertex="1" parent="e2">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <!-- ===== 连线: uproject → 插件 ===== -->
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n1" target="n4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n1" target="n5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n1" target="n6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n1" target="n7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n1" target="n8">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n1" target="n9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8l" value="启用插件" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=10;fontColor=#64748B;" connectable="0" vertex="1" parent="e8">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <!-- ===== 连线: Build.cs → 引擎模块 ===== -->
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n2" target="n10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9l" value="PublicDependencyModuleNames" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#94A3B8;" connectable="0" vertex="1" parent="e9">
+          <mxGeometry x="0.3" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n2" target="n11">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n2" target="n12">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n2" target="n13">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

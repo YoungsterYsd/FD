@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio-mcp" version="21.0.0">
+  <diagram name="A3-ExperienceDefinition">
+    <mxGraphModel dx="1200" dy="850" grid="1" gridSize="8" guides="1" tooltips="1" arrows="1" fold="1" pageWidth="1100" pageHeight="800" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="A3 ExperienceDefinition 加载机制 —— 核心类与 7 阶段状态机" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;fontColor=#1E40AF;" vertex="1" parent="1">
+          <mxGeometry x="32" y="16" width="650" height="28" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== URPGExperienceDefinition ===== -->
+        <mxCell id="n1" value="&#xa;URPGExperienceDefinition&#xa;─────────────────────&#xa;+GameFeaturesToEnable: TArray[FString]&#xa;+DefaultPawnData: URPGGamePawnData*&#xa;+Actions: TArray[URPGGameFeatureAction*]&#xa;+ActionSets: TArray[URPGExperienceActionSet*]&#xa;─────────────────────&#xa;[UPrimaryDataAsset, Const, BlueprintType]&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=2;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="32" y="56" width="260" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== URPGExperienceActionSet ===== -->
+        <mxCell id="n2" value="&#xa;URPGExperienceActionSet&#xa;─────────────────────&#xa;+Actions: TArray[URPGGameFeatureAction*]&#xa;─────────────────────&#xa;[UPrimaryDataAsset]&#xa;[Action 分组复用]&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=2;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="340" y="56" width="240" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== ARPGWorldSettings ===== -->
+        <mxCell id="n3" value="&#xa;ARPGWorldSettings&#xa;─────────────────────&#xa;+DefaultExperience: URPGExperienceDefinition*&#xa;─────────────────────&#xa;[AWorldSettings]&#xa;[关卡默认 Experience]&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=2;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="630" y="56" width="240" height="130" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== URPGExperienceManagerComponent ===== -->
+        <mxCell id="n4" value="&#xa;URPGExperienceManagerComponent&#xa;─────────────────────&#xa;+CurrentExperience: URPGExperienceDefinition*&#xa;+LoadState: ERPGExperienceLoadState&#xa;─────────────────────&#xa;+SetCurrentExperience()&#xa;+OnExperienceLoadComplete()&#xa;+IsExperienceLoaded() -&gt; bool&#xa;─────────────────────&#xa;[UGameStateComponent]&#xa;[7阶段状态机: Unloaded-&gt;Loading-&gt;&#xa;LoadingGameFeatures-&gt;ExecutingActions-&gt;&#xa;Loaded-&gt;Deactivating]&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=2;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="120" y="280" width="320" height="220" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 状态机枚举 ===== -->
+        <mxCell id="n5" value="&#xa;&lt;&lt;enum&gt;&gt;&#xa;ERPGExperienceLoadState&#xa;─────────────────────&#xa;Unloaded&#xa;Loading&#xa;LoadingGameFeatures&#xa;ExecutingActions&#xa;Loaded&#xa;Deactivating&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="500" y="280" width="200" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== UAsyncAction_ExperienceReady ===== -->
+        <mxCell id="n6" value="&#xa;UAsyncAction_ExperienceReady&#xa;─────────────────────&#xa;+OnReady: FAsyncActionDelegate&#xa;─────────────────────&#xa;+WaitForExperienceReady()&#xa;─────────────────────&#xa;[UBlueprintAsyncActionBase]&#xa;[蓝图异步等待节点]&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=2;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="120" y="540" width="260" height="160" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 引擎依赖 ===== -->
+        <mxCell id="n7" value="&#xa;UGameFeaturesSubsystem&#xa;─────────────────────&#xa;[引擎] GameFeature 激活/停用&#xa;LoadAndActivateGameFeaturePlugin()&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="32" y="760" width="230" height="90" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n8" value="&#xa;UAssetManager&#xa;─────────────────────&#xa;[引擎] 主资产异步加载&#xa;LoadPrimaryAsset()&#xa;" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="320" y="760" width="210" height="90" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 连线 ===== -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n1" target="n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1l" value="包含 ActionSets" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e1">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n4" target="n1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e2l" value="被加载" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e2">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n3" target="n1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3l" value="指定默认 Experience" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e3">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n4" target="n5">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4l" value="使用状态机" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#94A3B8;" connectable="0" vertex="1" parent="e4">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n4" target="n7">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5l" value="激活 GameFeatures" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e5">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n4" target="n8">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6l" value="异步加载资产" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e6">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n4" target="n6">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7l" value="通知就绪" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#94A3B8;" connectable="0" vertex="1" parent="e7">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n6" target="n4">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e8l" value="监听状态变化" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#94A3B8;" connectable="0" vertex="1" parent="e8">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

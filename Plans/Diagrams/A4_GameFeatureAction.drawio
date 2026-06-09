@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="drawio-mcp" version="21.0.0">
+  <diagram name="A4-GameFeatureAction">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="8" guides="1" tooltips="1" arrows="1" fold="1" pageWidth="1100" pageHeight="880" background="#FFFFFF">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="A4 GameFeatureAction 扩展机制 —— 类继承层次与数据结构" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;fontColor=#1E40AF;" vertex="1" parent="1">
+          <mxGeometry x="32" y="16" width="650" height="28" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 引擎基类 ===== -->
+        <mxCell id="sec1" value="引擎基类" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#95A5A6;" vertex="1" parent="1">
+          <mxGeometry x="440" y="56" width="80" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n1" value="UGameFeatureAction&#xa;─────────────────────&#xa;+OnGameFeatureActivating()&#xa;+OnGameFeatureDeactivating()&#xa;[引擎 GameFeatures 模块, 抽象基类]" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=2;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="320" y="80" width="320" height="100" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 项目基类 ===== -->
+        <mxCell id="sec2" value="项目基类" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#3B82F6;" vertex="1" parent="1">
+          <mxGeometry x="440" y="200" width="80" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n2" value="URPGGameFeatureAction_WorldActionBase&#xa;─────────────────────&#xa;+AddToWorld() = 0 [纯虚]&#xa;+OnGameFeatureActivating()&#xa;+OnGameFeatureDeactivating()&#xa;-GameInstanceStartHandles: TMap&#xa;[延迟到有 World 才执行]&#xa;[订阅 UGameInstance::OnStart]" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=2;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=8;spacingTop=4;" vertex="1" parent="1">
+          <mxGeometry x="270" y="224" width="420" height="140" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 5 个 Action 子类 ===== -->
+        <mxCell id="sec3" value="内置 Action 子类" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#3B82F6;" vertex="1" parent="1">
+          <mxGeometry x="440" y="384" width="140" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n3" value="AddAbilities&#xa;+AbilitiesEntries: TArray[...]&#xa;[核心] 注入 GA /&#xa;AttributeSet / AbilitySet" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="20" y="412" width="175" height="72" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n4" value="AddInputContextMapping&#xa;+InputContextMapping&#xa;+Priority: int32&#xa;[核心] 给玩家 Push IMC" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="220" y="412" width="175" height="72" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n5" value="AddWidget&#xa;+WidgetClass: TSoftClassPtr&#xa;+LayerTag: FGameplayTag&#xa;[核心] 往 Layout 添加 Widget" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="420" y="412" width="175" height="72" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n6" value="AddGameplayCuePath&#xa;+GameplayCuePaths: TArray&#xa;[重要] 注册 Cue 扫描路径" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="620" y="412" width="175" height="72" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n7" value="AddInputBinding&#xa;+InputConfig: URPGInputConfig*&#xa;[重要] 绑定 InputConfig&#xa;到 HeroComponent" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#DAE8FC;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="820" y="412" width="175" height="72" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 数据结构 ===== -->
+        <mxCell id="sec4" value="数据结构" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#1E40AF;" vertex="1" parent="1">
+          <mxGeometry x="32" y="520" width="80" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n8" value="FRPGGameplayAbilityGrant&#xa;+AbilityType: TSoftClassPtr&#xa;+AbilityLevel: int32&#xa;+InputTag: FGameplayTag" style="shape=document;boundedLbl=1;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="40" y="548" width="200" height="72" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n9" value="FRPGAttributeSetGrant&#xa;+AttributeSetType: TSoftClassPtr&#xa;+InitializationData: TSoftObjectPtr" style="shape=document;boundedLbl=1;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="280" y="548" width="200" height="72" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n10" value="FRPGGameFeatureAbilitiesEntry&#xa;+ActorClass: TSoftClassPtr&#xa;+GrantedAbilities: TArray[Grant]&#xa;+GrantedAttributes: TArray[AttrSetGrant]&#xa;+GrantedAbilitySets: TArray[TSoftObjectPtr]" style="shape=document;boundedLbl=1;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#3B82F6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="520" y="548" width="260" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 下游依赖 ===== -->
+        <mxCell id="sec5" value="注入目标 / 下游依赖" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=12;fontStyle=1;fontColor=#95A5A6;" vertex="1" parent="1">
+          <mxGeometry x="32" y="660" width="160" height="20" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n11" value="UGameFrameworkComponentManager&#xa;AddExtensionHandler()&#xa;SendExtensionEvent()" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="600" y="688" width="220" height="56" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="n12" value="UAbilitySystemComponent&#xa;GiveAbility() / GiveAbilitySet()" style="rounded=1;arcSize=16;html=1;whiteSpace=wrap;fillColor=#F2F3F5;strokeColor=#95A5A6;strokeWidth=1.5;fontSize=10;fontColor=#1E293B;align=left;verticalAlign=top;spacingLeft=6;spacingTop=3;" vertex="1" parent="1">
+          <mxGeometry x="860" y="688" width="200" height="48" as="geometry"/>
+        </mxCell>
+
+        <!-- ===== 连线 ===== -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n2" target="n1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1l" value="继承" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e1">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n3" target="n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n4" target="n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n5" target="n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n6" target="n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#3B82F6;strokeWidth=2;endArrow=block;endFill=1;" edge="1" parent="1" source="n7" target="n2">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n3" target="n10">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e7l" value="使用" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#94A3B8;" connectable="0" vertex="1" parent="e7">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n10" target="n8">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1;endArrow=open;endFill=0;dashed=1;dashPattern=2 2;" edge="1" parent="1" source="n10" target="n9">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n2" target="n11">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e10l" value="注册扩展回调" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e10">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+        <mxCell id="e11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#94A3B8;strokeWidth=1.5;endArrow=block;endFill=1;dashed=1;dashPattern=6 4;" edge="1" parent="1" source="n3" target="n12">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="e11l" value="调用 GiveAbility" style="edgeLabel;html=1;align=center;verticalAlign=middle;fontSize=9;fontColor=#64748B;" connectable="0" vertex="1" parent="e11">
+          <mxGeometry x="-0.2" y="1" relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
