@@ -3,8 +3,6 @@
 #include "FD.h"
 #include "Modules/ModuleManager.h"
 
-DEFINE_LOG_CATEGORY(LogFD);
-
 void FFDModule::StartupModule()
 {
 	UE_LOG(LogFD, Log, TEXT("FD Module Started"));

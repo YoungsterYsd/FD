@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
-
-DECLARE_LOG_CATEGORY_EXTERN(LogFD, Log, All);
+#include "LogChannels/FDLogChannels.h"
 
 class FFDModule : public FDefaultGameModuleImpl
 {

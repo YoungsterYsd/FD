@@ -1,0 +1,41 @@
+// Copyright YoungSterYSD. All Rights Reserved.
+
+#pragma once
+
+#include "NativeGameplayTags.h"
+
+namespace FDGameplayTags
+{
+	// 角色属性
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Attack);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Defense);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Health);
+
+	// 输入
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Jump);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Interact);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Ability1);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Ability2);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Ability3);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Ability4);
+
+	// 初始化状态
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_Spawned);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_DataAvailable);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_DataInitialized);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_GameplayReady);
+
+	// 角色状态
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Death_Dying);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Death_Dead);
+
+	// 游戏事件
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Reset);
+
+	// 动态数值传入
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Heal);
+}
