@@ -26,7 +26,8 @@ public class FD : ModuleRules
 			"Niagara",
 			"AIModule",
 			"DataRegistry",
-			"SignificanceManager"
+			"SignificanceManager",
+			"NavigationSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
