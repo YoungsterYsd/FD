@@ -38,4 +38,7 @@ namespace FDGameplayTags
 	// 动态数值传入
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Damage);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(SetByCaller_Heal);
+
+	// 消息通道
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Message_Experience_Loaded);
 }

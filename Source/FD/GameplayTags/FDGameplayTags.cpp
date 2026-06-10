@@ -36,4 +36,7 @@ namespace FDGameplayTags
 	// 动态数值传入
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Damage, "SetByCaller.Damage", "动态伤害值");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(SetByCaller_Heal,   "SetByCaller.Heal",   "动态治疗值");
+
+	// 消息通道
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Message_Experience_Loaded, "Message.Experience.Loaded", "Experience加载完成");
 }

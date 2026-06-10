@@ -19,6 +19,7 @@ public class FD : ModuleRules
 			"GameplayAbilities",
 			"ModularGameplay",
 			"GameFeatures",
+			"GameplayMessageRuntime",
 			"UMG",
 			"CommonUI",
 			"CommonInput",
