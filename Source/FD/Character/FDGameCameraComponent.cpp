@@ -1,7 +1,7 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
 #include "FDGameCameraComponent.h"
-#include "FDCameraMode.h"
+#include "Camera/FDCameraMode.h"
 #include "LogChannels/FDLogChannels.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDGameCameraComponent)

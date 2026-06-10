@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Character/FDCameraMode.h"
+#include "FDCameraMode.h"
 #include "FDCameraMode_TopDown.generated.h"
 
 /**
