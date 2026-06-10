@@ -3,6 +3,7 @@
 #include "FDCharacter.h"
 #include "FDGamePawnExtensionComponent.h"
 #include "FDGameCameraComponent.h"
+#include "FDGameHeroComponent.h"
 #include "LogChannels/FDLogChannels.h"
 #include "Components/GameFrameworkComponentManager.h"
 
@@ -13,6 +14,7 @@ AFDCharacter::AFDCharacter(const FObjectInitializer& ObjectInitializer)
 {
     PawnExtComp = CreateDefaultSubobject<UFDGamePawnExtensionComponent>(TEXT("PawnExtension"));
     CameraComp  = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("Camera"));
+    HeroComp    = CreateDefaultSubobject<UFDGameHeroComponent>(TEXT("Hero"));
 }
 
 void AFDCharacter::PreInitializeComponents()
@@ -26,6 +28,15 @@ void AFDCharacter::BeginPlay()
     UGameFrameworkComponentManager::SendGameFrameworkComponentExtensionEvent(
         this, UGameFrameworkComponentManager::NAME_GameActorReady);
     Super::BeginPlay();
+}
+
+void AFDCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+    if (HeroComp)
+    {
+        HeroComp->InitializePlayerInput(PlayerInputComponent);
+    }
 }
 
 void AFDCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)

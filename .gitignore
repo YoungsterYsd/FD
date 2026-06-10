@@ -54,6 +54,9 @@ Desktop.ini
 # Project plans (local only)
 Plans/
 
+# Temporary art assets
+Content/Spear/
+
 # Unreal Build Tool
 *.modules
 *.target
