@@ -31,6 +31,9 @@ public class FD : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
+		// 将模块根目录加入私有 include 路径，使子目录下的文件能以 "GameplayTags/FDGameplayTags.h" 形式引用模块内其他文件
+		PrivateIncludePaths.Add(ModuleDirectory);
+
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 		
