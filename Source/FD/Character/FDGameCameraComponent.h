@@ -6,6 +6,7 @@
 #include "FDGameCameraComponent.generated.h"
 
 class UFDCameraMode;
+struct FInputActionValue;
 
 /**
  * 相机调度器 —— 管理 ModeStack。
@@ -18,6 +19,8 @@ class FD_API UFDGameCameraComponent : public UActorComponent
 
 public:
     UFDGameCameraComponent();
+
+    virtual void BeginPlay() override;
 
     /** 推入新相机模式 */
     UFUNCTION(BlueprintCallable)
@@ -32,7 +35,7 @@ public:
     UFDCameraMode* GetActiveCameraMode() const { return ActiveMode; }
 
     /** 滚轮缩放 —— 转发给当前模式 */
-    void AdjustZoom(float Delta);
+    void AdjustZoom(const struct FInputActionValue& Value);
 
     /** 激活默认俯视角相机 */
     void ActivateDefaultCamera();
@@ -41,7 +44,7 @@ public:
                                FActorComponentTickFunction* ThisTickFunction) override;
 
     /** 默认相机模式类 */
-    UPROPERTY(EditDefaultsOnly, Category = "Camera")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera")
     TSubclassOf<UFDCameraMode> DefaultModeClass;
 
 private:
@@ -50,4 +53,7 @@ private:
 
     UPROPERTY()
     TArray<TObjectPtr<UFDCameraMode>> ModeStack;
+
+    UPROPERTY()
+    TObjectPtr<class UCameraComponent> CachedCamera;
 };

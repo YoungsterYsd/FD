@@ -20,6 +20,8 @@ namespace FDGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Ability2);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Ability3);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Ability4);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Camera_Zoom);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ClickMove);
 
 	// 初始化状态
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_Spawned);

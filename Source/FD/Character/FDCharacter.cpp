@@ -6,6 +6,7 @@
 #include "FDGameHeroComponent.h"
 #include "LogChannels/FDLogChannels.h"
 #include "Components/GameFrameworkComponentManager.h"
+#include "Camera/CameraComponent.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDCharacter)
 
@@ -13,8 +14,23 @@ AFDCharacter::AFDCharacter(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
 {
     PawnExtComp = CreateDefaultSubobject<UFDGamePawnExtensionComponent>(TEXT("PawnExtension"));
-    CameraComp  = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("Camera"));
+    CameraComp  = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("GameCamera"));
     HeroComp    = CreateDefaultSubobject<UFDGameHeroComponent>(TEXT("Hero"));
+
+    Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+    Camera->SetupAttachment(RootComponent);
+    Camera->bUsePawnControlRotation = false;
+    Camera->FieldOfView = 90.f;
+
+    // 俯视角移动配置
+    UCharacterMovementComponent* MoveComp = GetCharacterMovement();
+    MoveComp->bConstrainToPlane = true;
+    MoveComp->bSnapToPlaneAtStart = true;
+    MoveComp->bOrientRotationToMovement = true;
+    MoveComp->RotationRate = FRotator(0.f, 640.f, 0.f);
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationYaw = false;
+    bUseControllerRotationRoll = false;
 }
 
 void AFDCharacter::PreInitializeComponents()

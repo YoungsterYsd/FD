@@ -3,11 +3,13 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "FDCharacter.generated.h"
 
 class UFDGamePawnExtensionComponent;
 class UFDGameCameraComponent;
 class UFDGameHeroComponent;
+class UCameraComponent;
 
 /**
  * FD 项目角色基类。
@@ -24,6 +26,7 @@ public:
     UFDGamePawnExtensionComponent* GetPawnExtensionComponent() const { return PawnExtComp; }
     UFDGameCameraComponent* GetCameraComponent() const { return CameraComp; }
     UFDGameHeroComponent* GetHeroComponent() const { return HeroComp; }
+    UCameraComponent* GetCamera() const { return Camera; }
 
 protected:
     virtual void PreInitializeComponents() override;
@@ -39,4 +42,7 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     TObjectPtr<UFDGameHeroComponent> HeroComp;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    TObjectPtr<UCameraComponent> Camera;
 };

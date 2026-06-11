@@ -4,9 +4,9 @@
 #include "Input/FDInputConfig.h"
 #include "Player/FDPlayerController.h"
 #include "GameplayTags/FDGameplayTags.h"
+#include "FDGameCameraComponent.h"
 #include "LogChannels/FDLogChannels.h"
 #include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
@@ -20,20 +20,25 @@ UFDGameHeroComponent::UFDGameHeroComponent(const FObjectInitializer& ObjectIniti
 
 void UFDGameHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputComponent)
 {
+	UE_LOG(LogFD, Log, TEXT("HeroComponent::InitializePlayerInput called"));
+
 	if (!InputConfig)
 	{
+		UE_LOG(LogFD, Warning, TEXT("HeroComponent: InputConfig is null, input binding skipped"));
 		return;
 	}
 
 	UEnhancedInputComponent* EnhancedIC = Cast<UEnhancedInputComponent>(PlayerInputComponent);
 	if (!EnhancedIC)
 	{
-		UE_LOG(LogFD, Error, TEXT("HeroComponent: InputComponent is not UEnhancedInputComponent"));
+		UE_LOG(LogFD, Error, TEXT("HeroComponent: InputComponent is not UEnhancedInputComponent! Input binding failed"));
 		return;
 	}
 
 	APawn* OwnerPawn = GetPawn<APawn>();
 	AFDPlayerController* PC = OwnerPawn ? Cast<AFDPlayerController>(OwnerPawn->GetController()) : nullptr;
+
+	UE_LOG(LogFD, Log, TEXT("HeroComponent: OwnerPawn=%s, PC=%s"), *GetNameSafe(OwnerPawn), *GetNameSafe(PC));
 
 	// 绑定 NativeInputActions —— 直接回调
 	for (const FFDTaggedInputAction& Binding : InputConfig->NativeInputActions)
@@ -47,6 +52,7 @@ void UFDGameHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCom
 		{
 			EnhancedIC->BindAction(Binding.InputAction, ETriggerEvent::Triggered,
 				PC, &AFDPlayerController::HandleWASDMove);
+			UE_LOG(LogFD, Log, TEXT("HeroComponent: Bound InputTag.Move -> %s"), *GetNameSafe(Binding.InputAction.Get()));
 		}
 		else if (Binding.InputTag == FDGameplayTags::InputTag_Interact)
 		{
@@ -57,7 +63,24 @@ void UFDGameHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCom
 		{
 			// 预留
 		}
-		// 后续阶段的 InputTag.ClickMove / InputTag.Camera.Zoom 等在此扩展
+		else if (Binding.InputTag == FDGameplayTags::InputTag_Camera_Zoom)
+		{
+			// 直接绑定到 CameraComponent，不经过 PlayerController
+			AActor* Owner = GetOwner();
+			UFDGameCameraComponent* CamComp = Owner ? Owner->FindComponentByClass<UFDGameCameraComponent>() : nullptr;
+			if (CamComp)
+			{
+				EnhancedIC->BindAction(Binding.InputAction, ETriggerEvent::Triggered,
+					CamComp, &UFDGameCameraComponent::AdjustZoom);
+			}
+			UE_LOG(LogFD, Log, TEXT("HeroComponent: Bound InputTag.Camera.Zoom -> %s"), *GetNameSafe(Binding.InputAction.Get()));
+		}
+		else if (Binding.InputTag == FDGameplayTags::InputTag_ClickMove)
+		{
+			EnhancedIC->BindAction(Binding.InputAction, ETriggerEvent::Started,
+				PC, &AFDPlayerController::HandleClickToMove);
+			UE_LOG(LogFD, Log, TEXT("HeroComponent: Bound InputTag.ClickMove -> %s"), *GetNameSafe(Binding.InputAction.Get()));
+		}
 	}
 
 	// 绑定 AbilityInputActions —— 按下/释放 传递 InputTag

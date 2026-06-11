@@ -18,6 +18,8 @@ namespace FDGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Ability2, "InputTag.Ability.2","技能2(W)");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Ability3, "InputTag.Ability.3","技能3(E)");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Ability4, "InputTag.Ability.4","技能4(R)");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Camera_Zoom, "InputTag.Camera.Zoom", "相机缩放");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_ClickMove, "InputTag.ClickMove", "点击寻路");
 
 	// 初始化状态
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InitState_Spawned,          "InitState.Spawned",          "已生成");

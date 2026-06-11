@@ -6,6 +6,7 @@
 #include "FDPlayerController.generated.h"
 
 class UFDGameCameraComponent;
+class UInputMappingContext;
 
 /**
  * FD 项目 PlayerController —— 处理移动、寻路、相机更新。
@@ -24,13 +25,12 @@ public:
     void HandleWASDMove(const struct FInputActionValue& Value);
 
     /** 鼠标点击寻路 */
-    void HandleClickToMove();
-
-    /** 滚轮缩放 */
-    void HandleMouseWheelZoom(const struct FInputActionValue& Value);
+    void HandleClickToMove(const struct FInputActionValue& Value);
 
 protected:
     virtual void BeginPlay() override;
+    virtual void OnPossess(APawn* InPawn) override;
+    virtual void SetupInputComponent() override;
 
 private:
     /** 执行寻路到目标点 */
@@ -39,6 +39,13 @@ private:
     /** 获取 Pawn 上的 CameraComponent */
     UFDGameCameraComponent* GetCameraComponent() const;
 
+    /** 从 CameraComponent 同步 ControlRotation（用于 WASD 移动方向） */
+    void UpdateControlRotationFromCamera();
+
     bool bClickMoveActive = false;
     FVector CachedDestination = FVector::ZeroVector;
+
+    /** 输入映射上下文 */
+    UPROPERTY(EditAnywhere, Category = "Input")
+    TObjectPtr<class UInputMappingContext> InputMappingContext;
 };
