@@ -48,6 +48,9 @@ Thumbs.db
 .DS_Store
 Desktop.ini
 
+# Discussion & Architecture documents (local only)
+Plans/
+
 # Draw.io temp
 .drawio-tmp/
 
