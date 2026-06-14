@@ -42,6 +42,10 @@ __pycache__/
 
 # VS Code
 .vscode/
+*.code-workspace
+
+# AI / Copilot artifacts  
+.chat-session-resources/
 
 # OS files
 Thumbs.db

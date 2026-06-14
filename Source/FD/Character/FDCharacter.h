@@ -10,6 +10,7 @@ class UFDGamePawnExtensionComponent;
 class UFDGameCameraComponent;
 class UFDGameHeroComponent;
 class UCameraComponent;
+class UFDAttributeComponent;
 
 /**
  * FD 项目角色基类。
@@ -27,6 +28,7 @@ public:
     UFDGameCameraComponent* GetCameraComponent() const { return CameraComp; }
     UFDGameHeroComponent* GetHeroComponent() const { return HeroComp; }
     UCameraComponent* GetCamera() const { return Camera; }
+    UFDAttributeComponent* GetAttributeComponent() const { return AttributeComp; }
 
 protected:
     virtual void PreInitializeComponents() override;
@@ -45,4 +47,7 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     TObjectPtr<UCameraComponent> Camera;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    TObjectPtr<UFDAttributeComponent> AttributeComp;
 };

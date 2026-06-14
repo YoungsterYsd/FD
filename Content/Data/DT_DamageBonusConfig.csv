@@ -1,0 +1,5 @@
+Name,BonusTag,DefaultValue
+NormalAtk,Bonus.NormalAtk,0.0
+SpecialAtk,Bonus.SpecialAtk,0.0
+UltimateAtk,Bonus.UltimateAtk,0.0
+SwitchAtk,Bonus.SwitchAtk,0.0

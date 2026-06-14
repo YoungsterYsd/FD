@@ -1,0 +1,4 @@
+Name,HpBasic,HpMul,AtkBasic,AtkMul,Def,DefIgn,Crit,CritDmg,DmgInc,DmgDec,AttackSpeed,CastSpeed,MoveSpeed,BodyStrength
+1001,200,0.1,15,0.05,10,0,0.05,1.5,0,0,1,1,600,50
+1002,120,0,10,0.1,3,5,0.1,2,0.05,0,1,1.2,550,20
+1003,150,0,12,0.08,5,3,0.12,1.8,0,0,1.2,1,650,30

@@ -4,6 +4,7 @@
 #include "FDGamePawnExtensionComponent.h"
 #include "FDGameCameraComponent.h"
 #include "FDGameHeroComponent.h"
+#include "AbilitySystem/Attributes/FDAttributeComponent.h"
 #include "LogChannels/FDLogChannels.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "Camera/CameraComponent.h"
@@ -13,9 +14,10 @@
 AFDCharacter::AFDCharacter(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
 {
-    PawnExtComp = CreateDefaultSubobject<UFDGamePawnExtensionComponent>(TEXT("PawnExtension"));
-    CameraComp  = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("GameCamera"));
-    HeroComp    = CreateDefaultSubobject<UFDGameHeroComponent>(TEXT("Hero"));
+    PawnExtComp  = CreateDefaultSubobject<UFDGamePawnExtensionComponent>(TEXT("PawnExtension"));
+    CameraComp   = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("GameCamera"));
+    HeroComp     = CreateDefaultSubobject<UFDGameHeroComponent>(TEXT("Hero"));
+    AttributeComp = CreateDefaultSubobject<UFDAttributeComponent>(TEXT("Attribute"));
 
     Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
     Camera->SetupAttachment(RootComponent);
