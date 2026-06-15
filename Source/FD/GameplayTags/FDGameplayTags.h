@@ -23,6 +23,11 @@ namespace FDGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Camera_Zoom);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ClickMove);
 
+	// 连段技能
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Combo_1);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Combo_2);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Combo_3);
+
 	// 初始化状态
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_Spawned);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_DataAvailable);
@@ -32,6 +37,9 @@ namespace FDGameplayTags
 	// 角色状态
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Death_Dying);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Death_Dead);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Dodging);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Parrying);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Recovery);
 
 	// 游戏事件
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);

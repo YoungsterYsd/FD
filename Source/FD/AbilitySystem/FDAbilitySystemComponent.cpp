@@ -3,6 +3,7 @@
 #include "FDAbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
 #include "LogChannels/FDLogChannels.h"
+#include "AbilitySystem/AnimNotify/ANS_InputBuffer.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDAbilitySystemComponent)
 
@@ -17,13 +18,22 @@ void UFDAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Input
 
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		if (!AbilitySpec.DynamicAbilityTags.HasTag(InputTag))
+		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTag(InputTag))
 		{
 			continue;
 		}
 
 		InputPressedSpecHandles.AddUnique(AbilitySpec.Handle);
 		InputHeldSpecHandles.AddUnique(AbilitySpec.Handle);
+	}
+
+	// Forward input to any active InputBuffer ANS for combo routing
+	if (AActor* Owner = GetOwnerActor())
+	{
+		if (UANS_InputBuffer** Buffer = UANS_InputBuffer::ActiveBuffers.Find(Owner))
+		{
+			(*Buffer)->BufferInput(InputTag);
+		}
 	}
 }
 
@@ -36,7 +46,7 @@ void UFDAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& Inpu
 
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		if (!AbilitySpec.DynamicAbilityTags.HasTag(InputTag))
+		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTag(InputTag))
 		{
 			continue;
 		}

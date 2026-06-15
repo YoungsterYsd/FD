@@ -21,6 +21,11 @@ namespace FDGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Camera_Zoom, "InputTag.Camera.Zoom", "相机缩放");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_ClickMove, "InputTag.ClickMove", "点击寻路");
 
+	// 连段技能
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Combo_1, "Ability.Combo.1", "连段1");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Combo_2, "Ability.Combo.2", "连段2");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Combo_3, "Ability.Combo.3", "连段3");
+
 	// 初始化状态
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InitState_Spawned,          "InitState.Spawned",          "已生成");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InitState_DataAvailable,    "InitState.DataAvailable",    "数据就绪");
@@ -30,6 +35,9 @@ namespace FDGameplayTags
 	// 角色状态
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Death_Dying, "Status.Death.Dying", "濒死中");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Death_Dead,  "Status.Death.Dead",  "已死亡");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Dodging,     "Status.Dodging",     "闪避无敌帧");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Parrying,    "Status.Parrying",    "招架窗口");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Recovery,    "Status.Recovery",    "后摇恢复");
 
 	// 游戏事件
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Death, "GameplayEvent.Death", "死亡事件");

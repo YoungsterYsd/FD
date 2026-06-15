@@ -70,8 +70,8 @@ void UFDGameplayAbility::ActivateAbility(
     UE_LOG(LogFDGAS, Log, TEXT("FDGameplayAbility::ActivateAbility - Committed, calling BP event"));
     Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
     
-    // End ability after BP event completes (C3: replaced by PlayMontageAndWait auto-end)
-    EndAbility(Handle, ActorInfo, ActivationInfo, true, false);
+    // Note: EndAbility is no longer called here.
+    // GA lifecycle is now controlled by AN_EndAbility on the montage or montage completion.
 }
 
 UGameplayEffect* UFDGameplayAbility::GetCostGameplayEffect() const
