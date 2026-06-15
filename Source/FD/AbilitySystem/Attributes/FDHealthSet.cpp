@@ -1,14 +1,14 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
-#include "RPGHealthSet.h"
+#include "FDHealthSet.h"
 #include "Net/UnrealNetwork.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayEffectExtension.h"
 #include "LogChannels/FDLogChannels.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(RPGHealthSet)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(FDHealthSet)
 
-UFDRPGHealthSet::UFDRPGHealthSet()
+UFDHealthSet::UFDHealthSet()
 	: HpBasic(100.0f)
 	, HpMul(0.0f)
 	, HpMax(100.0f)
@@ -18,37 +18,37 @@ UFDRPGHealthSet::UFDRPGHealthSet()
 {
 }
 
-void UFDRPGHealthSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+void UFDHealthSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME_CONDITION_NOTIFY(UFDRPGHealthSet, HpBasic, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UFDRPGHealthSet, HpMul, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UFDRPGHealthSet, HpMax, COND_None, REPNOTIFY_Always);
-	DOREPLIFETIME_CONDITION_NOTIFY(UFDRPGHealthSet, HpCurrent, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFDHealthSet, HpBasic, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFDHealthSet, HpMul, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFDHealthSet, HpMax, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UFDHealthSet, HpCurrent, COND_None, REPNOTIFY_Always);
 }
 
-void UFDRPGHealthSet::OnRep_HpBasic(const FGameplayAttributeData& OldValue)
+void UFDHealthSet::OnRep_HpBasic(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDRPGHealthSet, HpBasic, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDHealthSet, HpBasic, OldValue);
 }
 
-void UFDRPGHealthSet::OnRep_HpMul(const FGameplayAttributeData& OldValue)
+void UFDHealthSet::OnRep_HpMul(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDRPGHealthSet, HpMul, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDHealthSet, HpMul, OldValue);
 }
 
-void UFDRPGHealthSet::OnRep_HpMax(const FGameplayAttributeData& OldValue)
+void UFDHealthSet::OnRep_HpMax(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDRPGHealthSet, HpMax, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDHealthSet, HpMax, OldValue);
 }
 
-void UFDRPGHealthSet::OnRep_HpCurrent(const FGameplayAttributeData& OldValue)
+void UFDHealthSet::OnRep_HpCurrent(const FGameplayAttributeData& OldValue)
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDRPGHealthSet, HpCurrent, OldValue);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UFDHealthSet, HpCurrent, OldValue);
 }
 
-void UFDRPGHealthSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
+void UFDHealthSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
 
@@ -58,7 +58,7 @@ void UFDRPGHealthSet::PreAttributeChange(const FGameplayAttribute& Attribute, fl
 	}
 }
 
-void UFDRPGHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
+void UFDHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
 
@@ -73,7 +73,7 @@ void UFDRPGHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 		SetHpCurrent(NewHp);
 		SetDamage(0.0f);
 
-		UE_LOG(LogFDGAS, Verbose, TEXT("UFDRPGHealthSet::PostGameplayEffectExecute - Damage: %.1f, HpCurrent: %.1f -> %.1f"),
+		UE_LOG(LogFDGAS, Verbose, TEXT("UFDHealthSet::PostGameplayEffectExecute - Damage: %.1f, HpCurrent: %.1f -> %.1f"),
 			LocalDamage, HpBefore, NewHp);
 
 		if (GetHpCurrent() <= 0.0f)
@@ -95,12 +95,12 @@ void UFDRPGHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 		SetHpCurrent(NewHp);
 		SetHealing(0.0f);
 
-		UE_LOG(LogFDGAS, Verbose, TEXT("UFDRPGHealthSet::PostGameplayEffectExecute - Healing: %.1f, HpCurrent: %.1f -> %.1f"),
+		UE_LOG(LogFDGAS, Verbose, TEXT("UFDHealthSet::PostGameplayEffectExecute - Healing: %.1f, HpCurrent: %.1f -> %.1f"),
 			LocalHealing, HpBefore, NewHp);
 	}
 }
 
-void UFDRPGHealthSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
+void UFDHealthSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
 {
 	Super::PostAttributeChange(Attribute, OldValue, NewValue);
 
@@ -119,12 +119,12 @@ void UFDRPGHealthSet::PostAttributeChange(const FGameplayAttribute& Attribute, f
 	}
 }
 
-void UFDRPGHealthSet::RecalculateHpMax()
+void UFDHealthSet::RecalculateHpMax()
 {
 	const float NewHpMax = GetHpBasic() * (1.0f + GetHpMul());
 	if (!FMath::IsNearlyEqual(GetHpMax(), NewHpMax))
 	{
-		UE_LOG(LogFDGAS, Verbose, TEXT("UFDRPGHealthSet::RecalculateHpMax - HpMax: %.1f -> %.1f (Basic:%.1f, Mul:%.2f)"),
+		UE_LOG(LogFDGAS, Verbose, TEXT("UFDHealthSet::RecalculateHpMax - HpMax: %.1f -> %.1f (Basic:%.1f, Mul:%.2f)"),
 			GetHpMax(), NewHpMax, GetHpBasic(), GetHpMul());
 		SetHpMax(NewHpMax);
 	}

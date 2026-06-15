@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Attributes/FDAttributeSet.h"
-#include "RPGHealthSet.generated.h"
+#include "FDHealthSet.generated.h"
 
 /**
- * FD RPG Health AttributeSet.
+ * FD Health AttributeSet.
  *
  * Manages health-related attributes using a Meta Attribute pipeline:
  * - HpBasic / HpMul → HpMax is derived as HpBasic × (1 + HpMul).
@@ -16,19 +16,19 @@
  * - OnOutOfHealth is broadcast when HpCurrent reaches zero.
  */
 UCLASS(BlueprintType)
-class FD_API UFDRPGHealthSet : public UAttributeSet
+class FD_API UFDHealthSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UFDRPGHealthSet();
+	UFDHealthSet();
 
-	ATTRIBUTE_ACCESSORS(UFDRPGHealthSet, HpBasic);
-	ATTRIBUTE_ACCESSORS(UFDRPGHealthSet, HpMul);
-	ATTRIBUTE_ACCESSORS(UFDRPGHealthSet, HpMax);
-	ATTRIBUTE_ACCESSORS(UFDRPGHealthSet, HpCurrent);
-	ATTRIBUTE_ACCESSORS(UFDRPGHealthSet, Healing);
-	ATTRIBUTE_ACCESSORS(UFDRPGHealthSet, Damage);
+	ATTRIBUTE_ACCESSORS(UFDHealthSet, HpBasic);
+	ATTRIBUTE_ACCESSORS(UFDHealthSet, HpMul);
+	ATTRIBUTE_ACCESSORS(UFDHealthSet, HpMax);
+	ATTRIBUTE_ACCESSORS(UFDHealthSet, HpCurrent);
+	ATTRIBUTE_ACCESSORS(UFDHealthSet, Healing);
+	ATTRIBUTE_ACCESSORS(UFDHealthSet, Damage);
 
 	/** Broadcast when HpCurrent drops to or below zero after damage processing. */
 	mutable FFDAttributeEvent OnOutOfHealth;

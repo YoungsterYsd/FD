@@ -3,9 +3,12 @@
 #include "FDPlayerController.h"
 #include "Character/FDGameCameraComponent.h"
 #include "Camera/FDCameraMode.h"
+#include "AbilitySystem/FDAbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
 #include "LogChannels/FDLogChannels.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerState.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
@@ -64,6 +67,32 @@ void AFDPlayerController::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
 
     UpdateControlRotationFromCamera();
+
+    // Process ability input queue (calls TryActivateAbility for pressed InputTags)
+    if (APawn* ControlledPawn = GetPawn())
+    {
+        if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(ControlledPawn))
+        {
+            if (UAbilitySystemComponent* ASC = ASI->GetAbilitySystemComponent())
+            {
+                if (UFDAbilitySystemComponent* FD_ASC = Cast<UFDAbilitySystemComponent>(ASC))
+                {
+                    FD_ASC->ProcessAbilityInput(DeltaSeconds, false);
+                }
+            }
+        }
+        // Fallback: ASC might be on PlayerState
+        if (APlayerState* PS = ControlledPawn->GetPlayerState())
+        {
+            if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(PS))
+            {
+                if (UFDAbilitySystemComponent* FD_ASC = Cast<UFDAbilitySystemComponent>(ASI->GetAbilitySystemComponent()))
+                {
+                    FD_ASC->ProcessAbilityInput(DeltaSeconds, false);
+                }
+            }
+        }
+    }
 }
 
 void AFDPlayerController::UpdateControlRotationFromCamera()

@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystem/Attributes/FDAttributeSet.h"
 #include "GameplayTagContainer.h"
-#include "RPGEnergySet.generated.h"
+#include "FDEnergySet.generated.h"
 
 /**
  * Single energy pool entry.
@@ -54,7 +54,7 @@ struct TStructOpsTypeTraits<FEnergyPoolEntry> : public TStructOpsTypeTraitsBase2
 };
 
 /**
- * FD RPG Energy AttributeSet (Multi-Pool Tag Management).
+ * FD Energy AttributeSet (Multi-Pool Tag Management).
  *
  * Supports arbitrary energy types via FGameplayTag. New energy types only
  * require adding a tag, no C++ changes.
@@ -68,23 +68,23 @@ struct TStructOpsTypeTraits<FEnergyPoolEntry> : public TStructOpsTypeTraitsBase2
  * - OnEnergyChanged: Broadcast when any pool changes.
  */
 UCLASS(BlueprintType)
-class FD_API UFDRPGEnergySet : public UAttributeSet
+class FD_API UFDEnergySet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UFDRPGEnergySet();
+	UFDEnergySet();
 
 	// ---- Pool Management ----
 
 	/**
 	 * Register a new energy pool.
 	 * @param EnergyType - Tag identifying the energy type.
-	 * @param InitialMax - Initial maximum capacity.
+	 * @param InMaxCapacity - Maximum capacity of the energy pool.
 	 * @param ChargeRate - Recharge rate multiplier (1.0 = normal rate).
 	 */
 	UFUNCTION(BlueprintCallable, Category = "FD|Energy")
-	void RegisterEnergyPool(FGameplayTag EnergyType, float InitialMax, float ChargeRate = 1.0f);
+	void RegisterEnergyPool(FGameplayTag EnergyType, float InMaxCapacity, float ChargeRate = 1.0f);
 
 	/**
 	 * Remove an energy pool by type.

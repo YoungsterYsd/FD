@@ -5,10 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "AbilitySystem/Attributes/FDAttributeSet.h"
-#include "RPGCombatSet.generated.h"
+#include "FDCombatSet.generated.h"
 
 /**
- * FD RPG Combat AttributeSet.
+ * FD Combat AttributeSet.
  *
  * Manages offensive and defensive combat attributes.
  * - Atk is derived from AtkBasic × (1 + AtkMul) and cannot be modified directly.
@@ -18,25 +18,25 @@
  * - DamageBonuses is a tag-driven TMap for extensible skill-type damage bonuses.
  */
 UCLASS(BlueprintType)
-class FD_API UFDRPGCombatSet : public UAttributeSet
+class FD_API UFDCombatSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UFDRPGCombatSet();
+	UFDCombatSet();
 
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, AtkBasic);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, AtkMul);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, Atk);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, Def);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, DefIgn);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, Crit);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, CritDmg);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, DmgInc);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, DmgDec);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, AttackSpeed);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, CastSpeed);
-	ATTRIBUTE_ACCESSORS(UFDRPGCombatSet, BodyStrength);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, AtkBasic);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, AtkMul);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, Atk);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, Def);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, DefIgn);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, Crit);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, CritDmg);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, DmgInc);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, DmgDec);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, AttackSpeed);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, CastSpeed);
+	ATTRIBUTE_ACCESSORS(UFDCombatSet, BodyStrength);
 
 	// ---- Tag-driven Damage Bonuses (extensible, no C++ changes for new types) ---- //
 

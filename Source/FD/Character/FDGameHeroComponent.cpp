@@ -3,6 +3,8 @@
 #include "FDGameHeroComponent.h"
 #include "Input/FDInputConfig.h"
 #include "Player/FDPlayerController.h"
+#include "AbilitySystem/FDAbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
 #include "GameplayTags/FDGameplayTags.h"
 #include "FDGameCameraComponent.h"
 #include "LogChannels/FDLogChannels.h"
@@ -10,6 +12,7 @@
 #include "InputActionValue.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/PlayerState.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDGameHeroComponent)
 
@@ -108,13 +111,58 @@ void UFDGameHeroComponent::Input_Move(const FInputActionValue& Value)
 void UFDGameHeroComponent::Input_AbilityPressed(FGameplayTag InputTag)
 {
 	UE_LOG(LogFD, Log, TEXT("Ability Pressed: %s"), *InputTag.ToString());
-	// 后续阶段: 经输入缓冲 → ASC::AbilityInputTagPressed(InputTag)
+
+	// Route to ASC for ability activation
+	if (APawn* Pawn = GetPawn<APawn>())
+	{
+		if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(Pawn))
+		{
+			if (UFDAbilitySystemComponent* ASC = Cast<UFDAbilitySystemComponent>(ASI->GetAbilitySystemComponent()))
+			{
+				ASC->AbilityInputTagPressed(InputTag);
+				return;
+			}
+		}
+		// Fallback: ASC on PlayerState
+		if (APlayerState* PS = Pawn->GetPlayerState())
+		{
+			if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(PS))
+			{
+				if (UFDAbilitySystemComponent* ASC = Cast<UFDAbilitySystemComponent>(ASI->GetAbilitySystemComponent()))
+				{
+					ASC->AbilityInputTagPressed(InputTag);
+				}
+			}
+		}
+	}
 }
 
 void UFDGameHeroComponent::Input_AbilityReleased(FGameplayTag InputTag)
 {
 	UE_LOG(LogFD, Log, TEXT("Ability Released: %s"), *InputTag.ToString());
-	// 后续阶段: ASC::AbilityInputTagReleased(InputTag)
+
+	// Route to ASC
+	if (APawn* Pawn = GetPawn<APawn>())
+	{
+		if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(Pawn))
+		{
+			if (UFDAbilitySystemComponent* ASC = Cast<UFDAbilitySystemComponent>(ASI->GetAbilitySystemComponent()))
+			{
+				ASC->AbilityInputTagReleased(InputTag);
+				return;
+			}
+		}
+		if (APlayerState* PS = Pawn->GetPlayerState())
+		{
+			if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(PS))
+			{
+				if (UFDAbilitySystemComponent* ASC = Cast<UFDAbilitySystemComponent>(ASI->GetAbilitySystemComponent()))
+				{
+					ASC->AbilityInputTagReleased(InputTag);
+				}
+			}
+		}
+	}
 }
 
 void UFDGameHeroComponent::Input_Interact(const FInputActionValue& Value)

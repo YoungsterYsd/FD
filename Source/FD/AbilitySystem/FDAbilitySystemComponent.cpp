@@ -13,9 +13,11 @@ void UFDAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Input
 		return;
 	}
 
+	UE_LOG(LogFDGAS, Verbose, TEXT("ASC::AbilityInputTagPressed - Tag=%s"), *InputTag.ToString());
+
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTag(InputTag))
+		if (!AbilitySpec.DynamicAbilityTags.HasTag(InputTag))
 		{
 			continue;
 		}
@@ -34,7 +36,7 @@ void UFDAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& Inpu
 
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{
-		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTag(InputTag))
+		if (!AbilitySpec.DynamicAbilityTags.HasTag(InputTag))
 		{
 			continue;
 		}
@@ -52,26 +54,16 @@ void UFDAbilitySystemComponent::ProcessAbilityInput(float DeltaTime, bool bGameP
 	// Process pressed abilities: try to activate each
 	for (const FGameplayAbilitySpecHandle& Handle : InputPressedSpecHandles)
 	{
-		if (!Handle.IsValid())
-		{
-			continue;
-		}
+		if (!Handle.IsValid()) continue;
 
 		FGameplayAbilitySpec* Spec = FindAbilitySpecFromHandle(Handle);
-		if (!Spec || !Spec->Ability)
-		{
-			continue;
-		}
+		if (!Spec || !Spec->Ability) continue;
 
 		if (Spec->IsActive())
 		{
-			// Ability is already active, notify input pressed for held abilities
 			AbilitySpecInputPressed(*Spec);
 		}
-		else
-		{
-			AbilitiesToActivate.AddUnique(Handle);
-		}
+		AbilitiesToActivate.AddUnique(Handle);
 	}
 
 	// Activate abilities outside the iteration to avoid modifying while iterating

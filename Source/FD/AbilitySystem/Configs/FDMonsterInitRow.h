@@ -3,16 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/DataTable.h"
+#include "AbilitySystem/Configs/FDTableMgrRowBase.h"
 #include "FDMonsterInitRow.generated.h"
+
+class UAbilitySystemComponent;
 
 /**
  * DataTable row for monster attribute initialization.
  * Each row defines the base combat attributes for a monster type (Goblin, Elite, Boss, etc.).
- * Used by UFDAttributeComponent::InitializeMonsterAttributes at BeginPlay.
  */
 USTRUCT()
-struct FFDMonsterInitRow : public FTableRowBase
+struct FFDMonsterInitRow : public FFDTableMgrRowBase
 {
 	GENERATED_BODY()
 
@@ -47,4 +48,19 @@ struct FFDMonsterInitRow : public FTableRowBase
 	/** Current tenacity at spawn. */
 	UPROPERTY(EditAnywhere)
 	float TenacityCurrent = 100.0f;
+
+	/** Register this parser with UFDTableMgr at module startup. */
+	static void Register()
+	{
+		FFDTableMgrRowBase::RegisterParser(TEXT("MonsterInit"), FSoftObjectPath(TEXT("/Game/Data/DT_MonsterInit")));
+	}
+
+	/**
+	 * Apply monster init attributes to the given ASC by MonsterID.
+	 * @param ASC - Target AbilitySystemComponent.
+	 * @param MonsterID - Numeric monster type ID.
+	 * @param Owner - Optional owner actor for MoveSpeed application.
+	 * @return true if the row was found and attributes were applied.
+	 */
+	static bool ApplyTo(UAbilitySystemComponent* ASC, int32 MonsterID, AActor* Owner = nullptr);
 };

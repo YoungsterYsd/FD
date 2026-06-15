@@ -5,13 +5,13 @@
 #include "Engine/DataAsset.h"
 #include "FDGamePawnData.generated.h"
 
-class UFDAabilitySet;
+class UFDAbilitySet;
 class UFDInputConfig;
 class UFDCameraMode;
 
 /**
- * 角色组装数据 —— 描述一个 Pawn 由什么组成。
- * GameMode 读取此资产，按配置 Spawn 并初始化角色。
+ * Character assembly data — describes what a Pawn is composed of.
+ * GameMode reads this asset and spawns/initializes the character accordingly.
  */
 UCLASS(BlueprintType, Const)
 class FD_API UFDGamePawnData : public UPrimaryDataAsset
@@ -19,13 +19,13 @@ class FD_API UFDGamePawnData : public UPrimaryDataAsset
 	GENERATED_BODY()
 
 public:
-	/** 要实例化的 Pawn 类 */
+	/** The Pawn class to instantiate. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pawn")
 	TSubclassOf<APawn> PawnClass;
 
-	/** 授予此角色的技能包 */
+	/** Ability sets to grant to this character. */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
-	TArray<TObjectPtr<UFDAabilitySet>> AbilitySets;
+	TArray<TObjectPtr<UFDAbilitySet>> AbilitySets;
 
 	/** 输入配置 —— 定义 InputAction 到 GameplayTag 的映射 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")

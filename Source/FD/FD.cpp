@@ -2,6 +2,7 @@
 
 #include "FD.h"
 #include "Modules/ModuleManager.h"
+#include "AbilitySystem/Executions/FDEnergyCostExecution.h"
 
 void FFDModule::StartupModule()
 {

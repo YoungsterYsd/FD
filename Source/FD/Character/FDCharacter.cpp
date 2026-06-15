@@ -4,6 +4,7 @@
 #include "FDGamePawnExtensionComponent.h"
 #include "FDGameCameraComponent.h"
 #include "FDGameHeroComponent.h"
+#include "FDSkillComponent.h"
 #include "AbilitySystem/Attributes/FDAttributeComponent.h"
 #include "LogChannels/FDLogChannels.h"
 #include "Components/GameFrameworkComponentManager.h"
@@ -14,9 +15,10 @@
 AFDCharacter::AFDCharacter(const FObjectInitializer& ObjectInitializer)
     : Super(ObjectInitializer)
 {
-    PawnExtComp  = CreateDefaultSubobject<UFDGamePawnExtensionComponent>(TEXT("PawnExtension"));
-    CameraComp   = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("GameCamera"));
-    HeroComp     = CreateDefaultSubobject<UFDGameHeroComponent>(TEXT("Hero"));
+    PawnExtComp   = CreateDefaultSubobject<UFDGamePawnExtensionComponent>(TEXT("PawnExtension"));
+    CameraComp    = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("GameCamera"));
+    HeroComp      = CreateDefaultSubobject<UFDGameHeroComponent>(TEXT("Hero"));
+    SkillComp     = CreateDefaultSubobject<UFDSkillComponent>(TEXT("Skill"));
     AttributeComp = CreateDefaultSubobject<UFDAttributeComponent>(TEXT("Attribute"));
 
     Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
@@ -24,7 +26,7 @@ AFDCharacter::AFDCharacter(const FObjectInitializer& ObjectInitializer)
     Camera->bUsePawnControlRotation = false;
     Camera->FieldOfView = 90.f;
 
-    // 俯视角移动配置
+    // Top-down movement configuration
     UCharacterMovementComponent* MoveComp = GetCharacterMovement();
     MoveComp->bConstrainToPlane = true;
     MoveComp->bSnapToPlaneAtStart = true;

@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Attributes/FDAttributeSet.h"
-#include "RPGTenacitySet.generated.h"
+#include "FDTenacitySet.generated.h"
 
 /**
- * FD RPG Tenacity (Stagger/Poise) AttributeSet.
+ * FD Tenacity (Stagger/Poise) AttributeSet.
  *
  * Tenacity acts as a secondary defensive bar. When depleted, the character may be staggered.
  * - TenacityCurrent is clamped to [0, TenacityMax].
@@ -17,18 +17,18 @@
  * - OnTenacityZero is broadcast when TenacityCurrent reaches zero.
  */
 UCLASS(BlueprintType)
-class FD_API UFDRPGTenacitySet : public UAttributeSet
+class FD_API UFDTenacitySet : public UAttributeSet
 {
 	GENERATED_BODY()
 
 public:
-	UFDRPGTenacitySet();
+	UFDTenacitySet();
 
-	ATTRIBUTE_ACCESSORS(UFDRPGTenacitySet, TenacityCurrent);
-	ATTRIBUTE_ACCESSORS(UFDRPGTenacitySet, TenacityMax);
-	ATTRIBUTE_ACCESSORS(UFDRPGTenacitySet, TenacityAtkRate);
-	ATTRIBUTE_ACCESSORS(UFDRPGTenacitySet, BodyStrength);
-	ATTRIBUTE_ACCESSORS(UFDRPGTenacitySet, TenacityDamage);
+	ATTRIBUTE_ACCESSORS(UFDTenacitySet, TenacityCurrent);
+	ATTRIBUTE_ACCESSORS(UFDTenacitySet, TenacityMax);
+	ATTRIBUTE_ACCESSORS(UFDTenacitySet, TenacityAtkRate);
+	ATTRIBUTE_ACCESSORS(UFDTenacitySet, BodyStrength);
+	ATTRIBUTE_ACCESSORS(UFDTenacitySet, TenacityDamage);
 
 	/** Broadcast when TenacityCurrent reaches zero after tenacity damage processing. */
 	mutable FFDAttributeEvent OnTenacityZero;

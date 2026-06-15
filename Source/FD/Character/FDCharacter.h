@@ -11,10 +11,13 @@ class UFDGameCameraComponent;
 class UFDGameHeroComponent;
 class UCameraComponent;
 class UFDAttributeComponent;
+class UFDSkillComponent;
 
 /**
- * FD 项目角色基类。
- * 挂载 PawnExtensionComponent + CameraComponent，注册到 GameFrameworkComponentManager。
+ * FD Character base class.
+ * Mounts PawnExtensionComponent + CameraComponent + HeroComponent +
+ * SkillComponent + AttributeComponent,
+ * registers with GameFrameworkComponentManager.
  */
 UCLASS()
 class FD_API AFDCharacter : public ACharacter
@@ -29,6 +32,7 @@ public:
     UFDGameHeroComponent* GetHeroComponent() const { return HeroComp; }
     UCameraComponent* GetCamera() const { return Camera; }
     UFDAttributeComponent* GetAttributeComponent() const { return AttributeComp; }
+    UFDSkillComponent* GetSkillComponent() const { return SkillComp; }
 
 protected:
     virtual void PreInitializeComponents() override;
@@ -46,8 +50,11 @@ protected:
     TObjectPtr<UFDGameHeroComponent> HeroComp;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-    TObjectPtr<UCameraComponent> Camera;
+    TObjectPtr<UFDSkillComponent> SkillComp;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     TObjectPtr<UFDAttributeComponent> AttributeComp;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    TObjectPtr<UCameraComponent> Camera;
 };

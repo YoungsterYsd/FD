@@ -7,17 +7,15 @@
 #include "GameplayTagContainer.h"
 #include "FDAttributeComponent.generated.h"
 
-class UDataTable;
-class UFDRPGEnergySet;
 class UAbilitySystemComponent;
 
 /**
- * Attribute aggregation component.
+ * Attribute query facade.
  *
- * Mounted on AFDCharacter, this component:
- * - Reads DT_EnergyConfig at BeginPlay and registers energy pools via UFDRPGEnergySet.
- * - Provides unified attribute query API (HP%, Energy%, Tenacity, DamageBonus).
- * - Delegates to individual AttributeSets (HealthSet, EnergySet, CombatSet, TenacitySet).
+ * Mounted on AFDCharacter, this component provides a unified attribute query API
+ * (HP%, Energy%, Tenacity, DamageBonus) that delegates to individual AttributeSets.
+ * Attribute initialization is handled by row struct static methods (FFDCharacterInitRow::ApplyTo, etc.)
+ * called from experience/bootstrap code rather than this component.
  */
 UCLASS(BlueprintType)
 class FD_API UFDAttributeComponent : public UActorComponent
@@ -26,30 +24,6 @@ class FD_API UFDAttributeComponent : public UActorComponent
 
 public:
 	UFDAttributeComponent();
-
-	/** Energy pool configuration DataTable (Row Struct: FFDEnergyConfigRow). */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FD|Config")
-	TObjectPtr<UDataTable> EnergyConfigTable;
-
-	/** Character attribute initialization DataTable (Row Struct: FFDCharacterInitRow). */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FD|Config")
-	TObjectPtr<UDataTable> CharacterInitTable;
-
-	/** Monster attribute initialization DataTable (Row Struct: FFDMonsterInitRow). */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FD|Config")
-	TObjectPtr<UDataTable> MonsterInitTable;
-
-	/** Damage bonus type registration DataTable (Row Struct: FDDamageBonusConfigRow). */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FD|Config")
-	TObjectPtr<UDataTable> DamageBonusConfigTable;
-
-	/** Character archetype ID (numeric, e.g. 1001). Used to look up init rows. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FD|Config")
-	int32 CharacterID = 0;
-
-	/** If true, this component initializes monster attributes instead of character attributes. */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FD|Config")
-	bool bIsMonster = false;
 
 	// ---- Health ---- //
 
@@ -89,7 +63,7 @@ public:
 
 	/**
 	 * Get damage multiplier for a given damage category.
-	 * TODO: Add GameplayTag matching when TAG_Ability_Attack_Normal etc. are defined.
+	 * @param DamageCategory - GameplayTag identifying the damage type.
 	 */
 	UFUNCTION(BlueprintCallable, Category = "FD|Attribute")
 	float GetDamageBonus(FGameplayTag DamageCategory) const;
@@ -98,23 +72,6 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	/** Read DT rows and register energy pools via EnergySet. */
-	void InitializeEnergyPools();
-
-	/** Initialize character combat attributes from CharacterInitTable. */
-	void InitializeCharacterAttributes(const int32 ID);
-
-	/** Initialize monster combat attributes from MonsterInitTable. */
-	void InitializeMonsterAttributes(const int32 ID);
-
-	/** Read DT rows and register damage bonus types globally via CombatSet (mirrors InitializeEnergyPools). */
-	void InitializeDamageBonuses();
-
-	/** Cached ASC reference (from owner or owner's PlayerState). */
-	UPROPERTY()
-	TObjectPtr<UAbilitySystemComponent> ASC;
-
-	/** Cached EnergySet reference. */
-	UPROPERTY()
-	TObjectPtr<UFDRPGEnergySet> EnergySet;
+	/** Dynamically find ASC from owner or PlayerState. Not cached. */
+	UAbilitySystemComponent* GetASC() const;
 };

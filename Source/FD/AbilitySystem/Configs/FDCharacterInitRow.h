@@ -3,16 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Engine/DataTable.h"
+#include "AbilitySystem/Configs/FDTableMgrRowBase.h"
 #include "FDCharacterInitRow.generated.h"
+
+class UAbilitySystemComponent;
 
 /**
  * DataTable row for character attribute initialization.
  * Each row defines the base combat attributes for a character archetype (Warrior, Mage, Archer, etc.).
- * Used by UFDAttributeComponent::InitializeCharacterAttributes at BeginPlay.
  */
 USTRUCT()
-struct FFDCharacterInitRow : public FTableRowBase
+struct FFDCharacterInitRow : public FFDTableMgrRowBase
 {
 	GENERATED_BODY()
 
@@ -71,4 +72,19 @@ struct FFDCharacterInitRow : public FTableRowBase
 	/** Body strength for passive tenacity/damage reduction. */
 	UPROPERTY(EditAnywhere)
 	float BodyStrength = 0.0f;
+
+	/** Register this parser with UFDTableMgr at module startup. */
+	static void Register()
+	{
+		FFDTableMgrRowBase::RegisterParser(TEXT("CharacterInit"), FSoftObjectPath(TEXT("/Game/Data/DT_CharacterInit")));
+	}
+
+	/**
+	 * Apply character init attributes to the given ASC by CharacterID.
+	 * @param ASC - Target AbilitySystemComponent.
+	 * @param CharacterID - Numeric character archetype ID.
+	 * @param Owner - Optional owner actor for MoveSpeed application.
+	 * @return true if the row was found and attributes were applied.
+	 */
+	static bool ApplyTo(UAbilitySystemComponent* ASC, int32 CharacterID, AActor* Owner = nullptr);
 };
