@@ -5,8 +5,9 @@
 #include "GameplayAbilitySpec.h"
 #include "AbilitySystem/Attributes/FDEnergySet.h"
 #include "AbilitySystem/Attributes/FDCombatSet.h"
-#include "AbilitySystem/Configs/FDEnergyConfigRow.h"
-#include "AbilitySystem/Configs/FDDamageBonusConfigRow.h"
+#include "Config/UFDConfigSubsystem.h"
+#include "Config/Data/FDEnergyConfigData.h"
+#include "Config/Data/FDDamageBonusConfigData.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDAbilitySet)
 
@@ -110,14 +111,32 @@ void UFDAbilitySet::GiveToAbilitySystem(
 		}
 	}
 
-	// Step 1.5: Initialize Energy pools + Damage bonuses from config tables
+	// Step 1.5: Initialize Energy pools + Damage bonuses from ConfigSubsystem (Lua-driven)
 	if (const UFDEnergySet* ES = ASC->GetSet<UFDEnergySet>())
 	{
-		FFDEnergyConfigRow::ApplyTo(const_cast<UFDEnergySet*>(ES));
+		if (UFDConfigSubsystem* Config = UFDConfigSubsystem::Get(ASC->GetOwner()))
+		{
+			Config->ForEachConfigRow<FFDEnergyConfigData>(
+				[ES](int32 RowID, const FFDEnergyConfigData& Data)
+				{
+					const_cast<UFDEnergySet*>(ES)->RegisterEnergyPool(
+						Data.EnergyType, Data.MaxCapacity, Data.ChargeRate);
+					return true;  // continue iteration
+				});
+		}
 	}
 	if (const UFDCombatSet* CS = ASC->GetSet<UFDCombatSet>())
 	{
-		FFDDamageBonusConfigRow::ApplyTo(const_cast<UFDCombatSet*>(CS));
+		if (UFDConfigSubsystem* Config = UFDConfigSubsystem::Get(ASC->GetOwner()))
+		{
+			Config->ForEachConfigRow<FFDDamageBonusConfigData>(
+				[CS](int32 RowID, const FFDDamageBonusConfigData& Data)
+				{
+					const_cast<UFDCombatSet*>(CS)->SetDamageBonus(
+						Data.BonusTag, Data.DefaultValue);
+					return true;  // continue iteration
+				});
+		}
 	}
 
 	// Step 2: Apply GameplayEffects

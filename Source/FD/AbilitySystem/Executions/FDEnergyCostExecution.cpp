@@ -2,8 +2,9 @@
 #include "FDEnergyCostExecution.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/Attributes/FDEnergySet.h"
-#include "AbilitySystem/Configs/FDSkillInfoRow.h"
-#include "AbilitySystem/Configs/FDSkillEnergyRow.h"
+#include "Config/Data/FFDSkillInfoData.h"
+#include "Config/Data/FFDSkillEnergyData.h"
+#include "Config/UFDConfigSubsystem.h"
 #include "LogChannels/FDLogChannels.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDEnergyCostExecution)
@@ -33,8 +34,10 @@ void UFDEnergyCostExecution::Execute_Implementation(
         return;
     }
 
+    InitializeSkillCaches();
+
     // Find the skill info (Seg=1 for cost, since cost is per-skill not per-segment)
-    const FFDSkillInfoRow* Info = FFDSkillInfoRow::Find(SkillID, SkillLevel, 1);
+    const FFDSkillInfoData* Info = GSkillInfoCache.Find(SkillID, SkillLevel, 1);
     if (!Info)
     {
         UE_LOG(LogFDGAS, Warning, TEXT("FDEnergyCostExecution - SkillInfo not found for SkillID=%d, Level=%d"), SkillID, SkillLevel);
@@ -47,8 +50,8 @@ void UFDEnergyCostExecution::Execute_Implementation(
     }
 
     // Get energy entries for this rule
-    TArray<const FFDSkillEnergyRow*> Entries;
-    FFDSkillEnergyRow::GetEntriesByRule(Info->EnergyRuleID, Entries);
+    TArray<const FFDSkillEnergyData*> Entries;
+    GSkillEnergyCache.GetEntries(Info->EnergyRuleID, Entries);
     UE_LOG(LogFDGAS, Log, TEXT("FDEnergyCostExecution - RuleID=%d, Entries=%d"), Info->EnergyRuleID, Entries.Num());
 
     // Get ASC
@@ -67,7 +70,7 @@ void UFDEnergyCostExecution::Execute_Implementation(
     }
 
     // Apply Cost entries (Direction == "Cost")
-    for (const FFDSkillEnergyRow* Entry : Entries)
+    for (const FFDSkillEnergyData* Entry : Entries)
     {
         if (Entry->Direction != FName(TEXT("Cost")))
         {

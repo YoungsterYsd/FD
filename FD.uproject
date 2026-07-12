@@ -59,6 +59,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "StructUtils",
+			"Enabled": true
+		},
+		{
 			"Name": "UnLua",
 			"Enabled": true
 		}

@@ -29,7 +29,7 @@ enum class EFDHitShapeType : uint8
  * Reads SkillID / SkillLevel / CurrentSeg from the currently active UFDGameplayAbility
  * and fetches AtkMul / BasicVal from DT_SkillInfo to compute damage.
  *
- * @see UFDGameplayAbility, FFDSkillInfoRow
+ * @see UFDGameplayAbility, FFDSkillInfoData
  */
 UCLASS(Blueprintable, EditInlineNew, meta = (DisplayName = "Hit Detection"))
 class FD_API UAN_HitDetection : public UAnimNotify

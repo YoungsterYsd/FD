@@ -6,6 +6,10 @@
 #include "AbilitySystem/Attributes/FDHealthSet.h"
 #include "AbilitySystem/Attributes/FDCombatSet.h"
 #include "AbilitySystem/Attributes/FDTenacitySet.h"
+#include "Config/UFDConfigSubsystem.h"
+#include "Config/Data/FDHeroInitData.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerState.h"
 
@@ -19,6 +23,64 @@ UFDAttributeComponent::UFDAttributeComponent()
 void UFDAttributeComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (CharacterID == 0)
+	{
+		return;
+	}
+
+	UFDConfigSubsystem* Config = UFDConfigSubsystem::Get(GetOwner());
+	if (!Config)
+	{
+		UE_LOG(LogFDGAS, Warning, TEXT("[FDConfig] FDAttributeComponent::BeginPlay - ConfigSubsystem not available for CharacterID=%d"), CharacterID);
+		return;
+	}
+
+	const FFDHeroInitData* Data = Config->GetConfigRow<FFDHeroInitData>(CharacterID);
+	if (!Data)
+	{
+		UE_LOG(LogFDGAS, Warning, TEXT("[FDConfig] FDAttributeComponent::BeginPlay - HeroInit data not found for ID=%d"), CharacterID);
+		return;
+	}
+
+	UAbilitySystemComponent* ASC = GetASC();
+	if (!ASC)
+	{
+		UE_LOG(LogFDGAS, Warning, TEXT("[FDConfig] FDAttributeComponent::BeginPlay - ASC not found for CharacterID=%d"), CharacterID);
+		return;
+	}
+
+	// Apply to HealthSet
+	if (UFDHealthSet* HS = const_cast<UFDHealthSet*>(ASC->GetSet<UFDHealthSet>()))
+	{
+		HS->SetHpBasic(Data->HpBasic);
+		HS->SetHpMul(Data->HpMul);
+	}
+
+	// Apply to CombatSet
+	if (UFDCombatSet* CS = const_cast<UFDCombatSet*>(ASC->GetSet<UFDCombatSet>()))
+	{
+		CS->SetAtkBasic(Data->AtkBasic);
+		CS->SetAtkMul(Data->AtkMul);
+		CS->SetDef(Data->Def);
+		CS->SetDefIgn(Data->DefIgn);
+		CS->SetCrit(Data->Crit);
+		CS->SetCritDmg(Data->CritDmg);
+		CS->SetDmgInc(Data->DmgInc);
+		CS->SetDmgDec(Data->DmgDec);
+		CS->SetAttackSpeed(Data->AttackSpeed);
+		CS->SetCastSpeed(Data->CastSpeed);
+		CS->SetBodyStrength(Data->BodyStrength);
+	}
+
+	// Apply MoveSpeed to CharacterMovement
+	if (ACharacter* Char = Cast<ACharacter>(GetOwner()))
+	{
+		Char->GetCharacterMovement()->MaxWalkSpeed = Data->MoveSpeed;
+	}
+
+	UE_LOG(LogFDGAS, Log, TEXT("[FDConfig] FDAttributeComponent - Initialized CharacterID=%d (HP=%.0f, ATK=%.0f, DEF=%.0f, SPD=%.0f)"),
+		CharacterID, Data->HpBasic, Data->AtkBasic, Data->Def, Data->MoveSpeed);
 }
 
 UAbilitySystemComponent* UFDAttributeComponent::GetASC() const

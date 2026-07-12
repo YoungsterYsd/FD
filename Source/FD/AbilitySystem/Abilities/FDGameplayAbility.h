@@ -4,7 +4,7 @@
 #include "Abilities/GameplayAbility.h"
 #include "FDGameplayAbility.generated.h"
 
-struct FFDSkillInfoRow;
+struct FFDSkillInfoData;
 class UGameplayEffect;
 
 UCLASS(Blueprintable)
@@ -30,8 +30,8 @@ public:
     UFUNCTION(BlueprintCallable, Category = "FD|Skill")
     float GetSkillParam(FName ParamKey) const;
 
-    /** Get current skill info row from DT_SkillInfo. */
-    const FFDSkillInfoRow* GetCurrentSkillInfo() const;
+    /** Get current skill info data from config cache. */
+    const FFDSkillInfoData* GetCurrentSkillInfo() const;
 
 protected:
     virtual void ActivateAbility(

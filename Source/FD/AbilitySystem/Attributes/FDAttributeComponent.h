@@ -14,8 +14,7 @@ class UAbilitySystemComponent;
  *
  * Mounted on AFDCharacter, this component provides a unified attribute query API
  * (HP%, Energy%, Tenacity, DamageBonus) that delegates to individual AttributeSets.
- * Attribute initialization is handled by row struct static methods (FFDCharacterInitRow::ApplyTo, etc.)
- * called from experience/bootstrap code rather than this component.
+ * Attribute initialization is driven by CharacterID via UFDConfigSubsystem in BeginPlay.
  */
 UCLASS(BlueprintType)
 class FD_API UFDAttributeComponent : public UActorComponent
@@ -24,6 +23,10 @@ class FD_API UFDAttributeComponent : public UActorComponent
 
 public:
 	UFDAttributeComponent();
+
+	/** Character archetype ID for attribute initialization (maps to Hero_Attr_Init.lua row). */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "FD|Attribute")
+	int32 CharacterID = 0;
 
 	// ---- Health ---- //
 

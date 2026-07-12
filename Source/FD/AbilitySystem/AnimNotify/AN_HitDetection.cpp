@@ -2,7 +2,8 @@
 
 #include "AN_HitDetection.h"
 #include "AbilitySystem/Abilities/FDGameplayAbility.h"
-#include "AbilitySystem/Configs/FDSkillInfoRow.h"
+#include "Config/Data/FFDSkillInfoData.h"
+#include "Config/UFDConfigSubsystem.h"
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemGlobals.h"
@@ -69,7 +70,9 @@ void UAN_HitDetection::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBas
 	const int32 SkillLevel = ActiveGA->SkillLevel;
 	const int32 CurrentSeg = ActiveGA->CurrentSeg;
 
-	const FFDSkillInfoRow* SkillInfo = FFDSkillInfoRow::Find(SkillID, SkillLevel, CurrentSeg);
+	InitializeSkillCaches();
+
+	const FFDSkillInfoData* SkillInfo = GSkillInfoCache.Find(SkillID, SkillLevel, CurrentSeg);
 	float AtkMul = 1.0f;
 	float BasicVal = 0.0f;
 	if (SkillInfo)

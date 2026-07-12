@@ -1,15 +1,39 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
 #include "FDGameplayAbility.h"
-#include "AbilitySystem/Configs/FDSkillInfoRow.h"
-#include "AbilitySystem/Configs/FDSkillParamRow.h"
-#include "AbilitySystem/Configs/FDSkillEnergyRow.h"
+#include "Config/Data/FFDSkillInfoData.h"
+#include "Config/Data/FFDSkillParamData.h"
+#include "Config/Data/FFDSkillEnergyData.h"
+#include "Config/UFDConfigSubsystem.h"
 #include "AbilitySystem/Attributes/FDEnergySet.h"
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
 #include "LogChannels/FDLogChannels.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDGameplayAbility)
+
+// ============================================================================
+// Global cache instances — defined here per FDConfigCache.h extern declarations
+// ============================================================================
+
+TFDConfigCache_CompositeKey<FFDSkillInfoData, int32, int32, int32> GSkillInfoCache;
+TFDConfigCache_SingleKey<FFDSkillParamData, int32> GSkillParamCache;
+TFDConfigCache_Grouped<FFDSkillEnergyData, int32, int32> GSkillEnergyCache;
+
+void InitializeSkillCaches()
+{
+	GSkillInfoCache.Build(
+		[](const FFDSkillInfoData& D) -> int32 { return D.SkillId; },
+		[](const FFDSkillInfoData& D) -> int32 { return D.Level; },
+		[](const FFDSkillInfoData& D) -> int32 { return D.Seg; });
+
+	GSkillParamCache.Build(
+		[](const FFDSkillParamData& D) -> int32 { return D.RuleID; });
+
+	GSkillEnergyCache.Build(
+		[](const FFDSkillEnergyData& D) -> int32 { return D.RuleID; },
+		[](const FFDSkillEnergyData& D) -> int32 { return D.SubID; });
+}
 
 UFDGameplayAbility::UFDGameplayAbility()
 {
@@ -27,16 +51,18 @@ bool UFDGameplayAbility::CheckCost(
         return false;
     }
 
+    InitializeSkillCaches();
+
     // Check energy sufficiency from DT_SkillEnergy
-    const FFDSkillInfoRow* Info = GetCurrentSkillInfo();
+    const FFDSkillInfoData* Info = GetCurrentSkillInfo();
     if (Info && Info->EnergyRuleID != 0 && ActorInfo && ActorInfo->AbilitySystemComponent.IsValid())
     {
         const UFDEnergySet* ES = ActorInfo->AbilitySystemComponent->GetSet<UFDEnergySet>();
         if (ES)
         {
-            TArray<const FFDSkillEnergyRow*> Entries;
-            FFDSkillEnergyRow::GetEntriesByRule(Info->EnergyRuleID, Entries);
-            for (const FFDSkillEnergyRow* Entry : Entries)
+            TArray<const FFDSkillEnergyData*> Entries;
+            GSkillEnergyCache.GetEntries(Info->EnergyRuleID, Entries);
+            for (const FFDSkillEnergyData* Entry : Entries)
             {
                 if (Entry->Direction == FName(TEXT("Cost")) &&
                     !ES->HasEnoughEnergy(Entry->EnergyType, Entry->Amount))
@@ -105,7 +131,9 @@ FGameplayEffectSpecHandle UFDGameplayAbility::MakeOutgoingGameplayEffectSpec(
         }
         else if (CooldownGameplayEffectClass && GameplayEffectClass == CooldownGameplayEffectClass)
         {
-            const float CDTime = FFDSkillInfoRow::GetCooldown(SkillID, SkillLevel);
+            InitializeSkillCaches();
+            const FFDSkillInfoData* Info = GSkillInfoCache.Find(SkillID, SkillLevel, 1);
+            const float CDTime = Info ? Info->CooldownTime : 0.0f;
             if (CDTime > 0.0f)
             {
                 SpecHandle.Data->SetDuration(CDTime, true);
@@ -119,14 +147,16 @@ FGameplayEffectSpecHandle UFDGameplayAbility::MakeOutgoingGameplayEffectSpec(
 
 float UFDGameplayAbility::GetSkillParam(FName ParamKey) const
 {
-    const FFDSkillInfoRow* Info = GetCurrentSkillInfo();
+    InitializeSkillCaches();
+    const FFDSkillInfoData* Info = GetCurrentSkillInfo();
     if (!Info || Info->ExtraValRuleID == 0) return 0.0f;
-    const FFDSkillParamRow* Param = FFDSkillParamRow::Find(Info->ExtraValRuleID);
+    const FFDSkillParamData* Param = GSkillParamCache.Find(Info->ExtraValRuleID);
     if (Param && Param->AttName == ParamKey) return Param->AttrMul;
     return 0.0f;
 }
 
-const FFDSkillInfoRow* UFDGameplayAbility::GetCurrentSkillInfo() const
+const FFDSkillInfoData* UFDGameplayAbility::GetCurrentSkillInfo() const
 {
-    return FFDSkillInfoRow::Find(SkillID, SkillLevel, CurrentSeg);
+    InitializeSkillCaches();
+    return GSkillInfoCache.Find(SkillID, SkillLevel, CurrentSeg);
 }
