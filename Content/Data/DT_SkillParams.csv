@@ -1,4 +1,0 @@
-Name,RuleID,AttName,AttrMul,TargetType
-1001,1001,HP_Max,0.05,Player
-1002,1002,HP_Max,0.05,Enemy
-1003,1003,HP_Max,0.08,Enemy

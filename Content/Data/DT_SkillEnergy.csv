@@ -1,6 +1,0 @@
-Name,RuleID,SubID,Direction,EnergyType,Amount
-20001,2001,1,Gain,Energy.Type.Ultimate,20
-20002,2001,2,Gain,Energy.Type.Weapon,30
-20003,2002,1,Cost,Energy.Type.General,20
-20004,2002,2,Gain,Energy.Type.Ultimate,40
-20005,2002,3,Gain,Energy.Type.Weapon,40

@@ -4,8 +4,24 @@
 #include "GameplayTagContainer.h"
 #include "LogChannels/FDLogChannels.h"
 #include "AbilitySystem/AnimNotify/ANS_InputBuffer.h"
+#include "Animation/UFDAnimInstance.h"
+#include "GameFramework/Character.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDAbilitySystemComponent)
+
+void UFDAbilitySystemComponent::InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor)
+{
+	Super::InitAbilityActorInfo(InOwnerActor, InAvatarActor);
+
+	// Lyra 模式：ASC 就绪后初始化 AnimInstance 的 GameplayTagPropertyMap
+	if (const ACharacter* Character = Cast<ACharacter>(InAvatarActor))
+	{
+		if (UFDAnimInstance* AnimInst = Cast<UFDAnimInstance>(Character->GetMesh()->GetAnimInstance()))
+		{
+			AnimInst->InitializeWithAbilitySystem(this);
+		}
+	}
+}
 
 void UFDAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& InputTag)
 {
@@ -13,8 +29,6 @@ void UFDAbilitySystemComponent::AbilityInputTagPressed(const FGameplayTag& Input
 	{
 		return;
 	}
-
-	UE_LOG(LogFDGAS, Verbose, TEXT("ASC::AbilityInputTagPressed - Tag=%s"), *InputTag.ToString());
 
 	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
 	{

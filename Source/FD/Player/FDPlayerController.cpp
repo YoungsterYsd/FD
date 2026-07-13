@@ -1,7 +1,12 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
 #include "FDPlayerController.h"
+#include "FDPlayerState.h"
 #include "Character/FDGameCameraComponent.h"
+#include "GameFramework/Character.h"
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
+#include "GameplayTags/FDGameplayTags.h"
 #include "Camera/FDCameraMode.h"
 #include "AbilitySystem/FDAbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
@@ -40,6 +45,17 @@ void AFDPlayerController::OnPossess(APawn* InPawn)
     UE_LOG(LogFD, Log, TEXT("AFDPlayerController::OnPossess called, Pawn=%s"), *GetNameSafe(InPawn));
 
     Super::OnPossess(InPawn);
+
+    // 初始化 GAS ActorInfo：告诉 ASC AvatarActor 是当前控制的 Character
+    if (AFDPlayerState* PS = InPawn->GetPlayerState<AFDPlayerState>())
+    {
+        if (UFDAbilitySystemComponent* ASC = PS->GetFDAbilitySystemComponent())
+        {
+            ASC->InitAbilityActorInfo(PS, InPawn);
+            UE_LOG(LogFD, Log, TEXT("InitAbilityActorInfo - Owner=%s, Avatar=%s"),
+                *PS->GetName(), *InPawn->GetName());
+        }
+    }
 
     // Possess 后 Pawn 已就位，此时激活默认相机模式
     if (UFDGameCameraComponent* CamComp = GetCameraComponent())
@@ -108,21 +124,26 @@ void AFDPlayerController::UpdateControlRotationFromCamera()
 
 void AFDPlayerController::HandleWASDMove(const FInputActionValue& Value)
 {
-    static bool bLoggedWASDOnce = false;
-    if (!bLoggedWASDOnce)
-    {
-        UE_LOG(LogFD, Log, TEXT("PlayerController: HandleWASDMove triggered (first call)"));
-        bLoggedWASDOnce = true;
-    }
-
-    // WASD 按下时取消点击寻路
-    bClickMoveActive = false;
-
     APawn* ControlledPawn = GetPawn();
     if (!ControlledPawn)
     {
         return;
     }
+
+    // 检查 PlayerState 的 ASC 是否有 Status.MovementLocked Tag（ASC 在 PlayerState 上！）
+    if (const APlayerState* PS = ControlledPawn->GetPlayerState())
+    {
+        if (const UAbilitySystemComponent* ASC = PS->FindComponentByClass<UAbilitySystemComponent>())
+        {
+            if (ASC->HasMatchingGameplayTag(FDGameplayTags::Status_MovementLocked))
+            {
+                return;
+            }
+        }
+    }
+
+    // WASD 按下时取消点击寻路
+    bClickMoveActive = false;
 
     const FVector2D MovementVector = Value.Get<FVector2D>();
     const FRotator YawRotation(0.f, GetControlRotation().Yaw, 0.f);

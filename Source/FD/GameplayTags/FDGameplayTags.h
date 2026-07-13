@@ -40,6 +40,9 @@ namespace FDGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Dodging);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Parrying);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Recovery);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_MovementLocked);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Animation_Playing);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Animation_UpperBody);
 
 	// 游戏事件
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);

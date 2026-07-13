@@ -47,6 +47,8 @@ public:
 	 */
 	void ProcessAbilityInput(float DeltaTime, bool bGamePaused);
 
+	virtual void InitAbilityActorInfo(AActor* InOwnerActor, AActor* InAvatarActor) override;
+
 private:
 	/** 当前帧按下的技能 Handle 列表。 */
 	TArray<FGameplayAbilitySpecHandle> InputPressedSpecHandles;

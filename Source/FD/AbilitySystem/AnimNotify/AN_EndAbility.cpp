@@ -19,6 +19,19 @@ void UAN_EndAbility::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase*
 		return;
 	}
 
+	// 获取当前正在播放的 Montage
+	UAnimInstance* AnimInst = MeshComp->GetAnimInstance();
+	if (!AnimInst)
+	{
+		return;
+	}
+
+	UAnimMontage* PlayingMontage = AnimInst->GetCurrentActiveMontage();
+	if (!PlayingMontage)
+	{
+		return;
+	}
+
 	UAbilitySystemComponent* ASC = UAbilitySystemGlobals::GetAbilitySystemComponentFromActor(
 		MeshComp->GetOwner());
 	if (!ASC)
@@ -27,18 +40,21 @@ void UAN_EndAbility::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase*
 		return;
 	}
 
-	// Find the active UFDGameplayAbility and cancel it
+	// 只取消 AbilityAnimation.Montage 匹配当前播放 Montage 的 GA
 	for (const FGameplayAbilitySpec& Spec : ASC->GetActivatableAbilities())
 	{
-		if (Spec.IsActive() && Spec.Ability)
+		if (!Spec.IsActive() || !Spec.Ability)
 		{
-			UFDGameplayAbility* GA = Cast<UFDGameplayAbility>(Spec.Ability);
-			if (GA)
-			{
-				UE_LOG(LogFDGAS, Verbose, TEXT("AN_EndAbility::Notify - Cancelling GA SkillID=%d"),
-					GA->SkillID);
-				ASC->CancelAbilityHandle(Spec.Handle);
-			}
+			continue;
+		}
+
+		UFDGameplayAbility* GA = Cast<UFDGameplayAbility>(Spec.Ability);
+		if (GA && GA->AbilityAnimation.Montage == PlayingMontage)
+		{
+			UE_LOG(LogFDGAS, Verbose, TEXT("AN_EndAbility - Ending GA SkillID=%d via Montage=%s"),
+				GA->SkillID, *PlayingMontage->GetName());
+			ASC->CancelAbilityHandle(Spec.Handle);
+			return;
 		}
 	}
 }

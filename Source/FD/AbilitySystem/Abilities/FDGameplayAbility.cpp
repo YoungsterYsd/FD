@@ -9,6 +9,11 @@
 #include "GameplayEffect.h"
 #include "AbilitySystemComponent.h"
 #include "LogChannels/FDLogChannels.h"
+#include "Animation/AnimMontage.h"
+#include "Animation/AnimInstance.h"
+#include "GameplayTags/FDGameplayTags.h"
+#include "GameFramework/Character.h"
+#include "Components/SkeletalMeshComponent.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDGameplayAbility)
 
@@ -83,21 +88,122 @@ void UFDGameplayAbility::ActivateAbility(
     const FGameplayAbilityActivationInfo ActivationInfo,
     const FGameplayEventData* TriggerEventData)
 {
-    UE_LOG(LogFDGAS, Verbose, TEXT("FDGameplayAbility::ActivateAbility - SkillID=%d, Level=%d"), SkillID, SkillLevel);
-    
-    // CommitAbility internally handles: CheckCost → ApplyCost (calls our MakeOutgoingSpec with SetByCaller) → ApplyCooldown
+    UE_LOG(LogFDGAS, Log, TEXT("FDGameplayAbility::ActivateAbility - SkillID=%d, Level=%d"), SkillID, SkillLevel);
+
     if (!CommitAbility(Handle, ActorInfo, ActivationInfo))
     {
         UE_LOG(LogFDGAS, Warning, TEXT("FDGameplayAbility::ActivateAbility - CommitAbility failed"));
         K2_EndAbility();
         return;
     }
-    
-    UE_LOG(LogFDGAS, Log, TEXT("FDGameplayAbility::ActivateAbility - Committed, calling BP event"));
+
+    PlayAbilityMontage();
+
     Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-    
-    // Note: EndAbility is no longer called here.
-    // GA lifecycle is now controlled by AN_EndAbility on the montage or montage completion.
+}
+
+void UFDGameplayAbility::EndAbility(
+    const FGameplayAbilitySpecHandle Handle,
+    const FGameplayAbilityActorInfo* ActorInfo,
+    const FGameplayAbilityActivationInfo ActivationInfo,
+    bool bReplicateEndAbility,
+    bool bWasCancelled)
+{
+    if (bWasCancelled && AbilityAnimation.Montage)
+    {
+        StopAbilityMontage(0.1f);
+    }
+
+    // 移除动画状态 Tag
+    if (UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo())
+    {
+        ASC->RemoveLooseGameplayTag(FDGameplayTags::Status_Animation_Playing);
+        ASC->RemoveLooseGameplayTag(FDGameplayTags::Status_Animation_UpperBody);
+        ASC->RemoveLooseGameplayTag(FDGameplayTags::Status_MovementLocked);
+    }
+
+    if (MontageEndedDelegateHandle.IsBound())
+    {
+        MontageEndedDelegateHandle.Unbind();
+    }
+
+    Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+}
+
+// ============================================================================
+//  动画方法
+// ============================================================================
+
+void UFDGameplayAbility::PlayAbilityMontage()
+{
+    if (!AbilityAnimation.Montage)
+    {
+        return;
+    }
+
+    UAnimInstance* AnimInst = GetAnimInstanceFromActorInfo();
+    if (!AnimInst)
+    {
+        UE_LOG(LogFDGAS, Warning, TEXT("FDGameplayAbility::PlayAbilityMontage - No AnimInstance"));
+        return;
+    }
+
+    AnimInst->Montage_Play(AbilityAnimation.Montage, AbilityAnimation.PlayRate,
+        EMontagePlayReturnType::MontageLength, 0.0f, true);
+
+    // 添加动画状态 Tag（GameplayTagPropertyMap 自动同步到 ABP 变量）
+    if (UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo())
+    {
+        ASC->AddLooseGameplayTag(FDGameplayTags::Status_Animation_Playing);
+        if (AbilityAnimation.bIsUpperBodySkill)
+        {
+            ASC->AddLooseGameplayTag(FDGameplayTags::Status_Animation_UpperBody);
+        }
+    }
+
+    // 禁止移动时直接给 ASC 加 Status.MovementLocked Tag
+    if (!AbilityAnimation.bCanMove)
+    {
+        if (UAbilitySystemComponent* ASC = GetAbilitySystemComponentFromActorInfo())
+        {
+            ASC->AddLooseGameplayTag(FDGameplayTags::Status_MovementLocked);
+        }
+    }
+
+    FOnMontageEnded EndDelegate;
+    EndDelegate.BindUObject(this, &UFDGameplayAbility::OnAbilityMontageEnded);
+    AnimInst->Montage_SetEndDelegate(EndDelegate, AbilityAnimation.Montage);
+    MontageEndedDelegateHandle = EndDelegate;
+
+    UE_LOG(LogFDGAS, Log, TEXT("[FDAnim] SkillID=%d playing %s (bCanMove=%d, UpperBody=%d)"),
+        SkillID, *AbilityAnimation.Montage->GetName(), AbilityAnimation.bCanMove, AbilityAnimation.bIsUpperBodySkill);
+}
+
+void UFDGameplayAbility::StopAbilityMontage(float BlendOutTime)
+{
+    if (!AbilityAnimation.Montage) return;
+
+    if (UAnimInstance* AnimInst = GetAnimInstanceFromActorInfo())
+    {
+        AnimInst->Montage_Stop(BlendOutTime, AbilityAnimation.Montage);
+    }
+}
+
+void UFDGameplayAbility::OnAbilityMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+    if (Montage != AbilityAnimation.Montage) return;
+
+    MontageEndedDelegateHandle.Unbind();
+    K2_EndAbility();
+}
+
+UAnimInstance* UFDGameplayAbility::GetAnimInstanceFromActorInfo() const
+{
+    if (const ACharacter* Character = Cast<ACharacter>(GetAvatarActorFromActorInfo()))
+    {
+        return Character->GetMesh()->GetAnimInstance();
+    }
+    return nullptr;
 }
 
 UGameplayEffect* UFDGameplayAbility::GetCostGameplayEffect() const

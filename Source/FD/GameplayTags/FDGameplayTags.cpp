@@ -37,7 +37,10 @@ namespace FDGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Death_Dead,  "Status.Death.Dead",  "已死亡");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Dodging,     "Status.Dodging",     "闪避无敌帧");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Parrying,    "Status.Parrying",    "招架窗口");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Recovery,    "Status.Recovery",    "后摇恢复");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Recovery,        "Status.Recovery",        "后摇恢复");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_MovementLocked,     "Status.MovementLocked",     "技能动画中禁止移动");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Animation_Playing,  "Status.Animation.Playing",  "技能Montage播放中");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Status_Animation_UpperBody,"Status.Animation.UpperBody","上半身混合模式");
 
 	// 游戏事件
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(GameplayEvent_Death, "GameplayEvent.Death", "死亡事件");

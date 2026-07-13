@@ -1,5 +1,0 @@
-Name,EnergyType,MaxCapacity,ChargeRate
-General,Energy.Type.General,100.0,1.0
-Ultimate,Energy.Type.Ultimate,100.0,0.0
-Weapon,Energy.Type.Weapon,100.0,0.0
-Monster,Energy.Type.Monster,200.0,1.0
