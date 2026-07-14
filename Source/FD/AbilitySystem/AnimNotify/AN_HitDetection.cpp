@@ -68,7 +68,7 @@ void UAN_HitDetection::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBas
 
 	const int32 SkillID = ActiveGA->SkillID;
 	const int32 SkillLevel = ActiveGA->SkillLevel;
-	const int32 CurrentSeg = ActiveGA->CurrentSeg;
+	const int32 CurrentSeg = 1;  // 连段系统实现后从 GA 读取
 
 	InitializeSkillCaches();
 

@@ -264,5 +264,5 @@ float UFDGameplayAbility::GetSkillParam(FName ParamKey) const
 const FFDSkillInfoData* UFDGameplayAbility::GetCurrentSkillInfo() const
 {
     InitializeSkillCaches();
-    return GSkillInfoCache.Find(SkillID, SkillLevel, CurrentSeg);
+    return GSkillInfoCache.Find(SkillID, SkillLevel, 1);
 }

@@ -49,10 +49,6 @@ public:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FD|Skill")
     int32 SkillLevel = 1;
 
-    /** Current damage segment, set by AnimNotify before damage calc. */
-    UPROPERTY(BlueprintReadWrite, Category = "FD|Skill")
-    int32 CurrentSeg = 1;
-
     /** 该技能对应的动画配置 */
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "FD|Skill|Animation")
     FFDAbilityAnimation AbilityAnimation;
