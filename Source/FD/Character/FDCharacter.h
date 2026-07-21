@@ -3,7 +3,6 @@
 #pragma once
 
 #include "GameFramework/Character.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "FDCharacter.generated.h"
 
 class UFDGamePawnExtensionComponent;
@@ -16,7 +15,7 @@ class UFDSkillComponent;
 /**
  * FD Character base class.
  * Mounts PawnExtensionComponent + CameraComponent + HeroComponent +
- * SkillComponent + AttributeComponent,
+ * SkillComponent + AttributeComponent + Camera,
  * registers with GameFrameworkComponentManager.
  */
 UCLASS()
@@ -27,6 +26,7 @@ class FD_API AFDCharacter : public ACharacter
 public:
     AFDCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+    // ===== Component Accessors =====
     UFDGamePawnExtensionComponent* GetPawnExtensionComponent() const { return PawnExtComp; }
     UFDGameCameraComponent* GetCameraComponent() const { return CameraComp; }
     UFDGameHeroComponent* GetHeroComponent() const { return HeroComp; }
@@ -39,7 +39,9 @@ protected:
     virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    virtual void PostInitializeComponents() override;
 
+    // ===== Components =====
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     TObjectPtr<UFDGamePawnExtensionComponent> PawnExtComp;
 

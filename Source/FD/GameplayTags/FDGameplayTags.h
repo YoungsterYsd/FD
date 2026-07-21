@@ -10,6 +10,16 @@ namespace FDGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Attack);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Defense);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Health);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_HealthMax);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Healing);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_CritRate);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_CritDamage);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_AttackSpeed);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_CastSpeed);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_DamageIncrease);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_DamageDecrease);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_BodyStrength);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Attribute_Tenacity);
 
 	// 输入
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move);
@@ -23,11 +33,6 @@ namespace FDGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Camera_Zoom);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_ClickMove);
 
-	// 连段技能
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Combo_1);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Combo_2);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Ability_Combo_3);
-
 	// 初始化状态
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_Spawned);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InitState_DataAvailable);
@@ -39,10 +44,11 @@ namespace FDGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Death_Dead);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Dodging);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Parrying);
-	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Recovery);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_MovementLocked);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Animation_Playing);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Animation_UpperBody);
+
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Status_Recovery);
 
 	// 游戏事件
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(GameplayEvent_Death);
@@ -54,4 +60,8 @@ namespace FDGameplayTags
 
 	// 消息通道
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Message_Experience_Loaded);
+
+	// 移动模式
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Movement_Mode_Grounded);
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(Movement_Mode_InAir);
 }

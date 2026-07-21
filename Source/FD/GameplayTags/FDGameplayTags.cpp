@@ -5,9 +5,19 @@
 namespace FDGameplayTags
 {
 	// 角色属性
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Attack,  "Attribute.Attack",  "攻击力");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Defense, "Attribute.Defense", "防御力");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Health,  "Attribute.Health",  "生命值");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Attack,         "Attribute.Attack",         "攻击力");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Defense,        "Attribute.Defense",        "防御力");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Health,         "Attribute.Health",         "生命值");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_HealthMax,      "Attribute.HealthMax",      "最大生命值");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Healing,        "Attribute.Healing",        "治疗效果");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_CritRate,       "Attribute.CritRate",       "暴击率");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_CritDamage,     "Attribute.CritDamage",     "暴击伤害");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_AttackSpeed,    "Attribute.AttackSpeed",    "攻击速度");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_CastSpeed,      "Attribute.CastSpeed",      "施法速度");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_DamageIncrease, "Attribute.DamageIncrease", "伤害增加");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_DamageDecrease, "Attribute.DamageDecrease", "伤害减免");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_BodyStrength,   "Attribute.BodyStrength",   "体格强度");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Attribute_Tenacity,       "Attribute.Tenacity",       "韧性");
 
 	// 输入
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Move,     "InputTag.Move",     "移动");
@@ -20,11 +30,6 @@ namespace FDGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Ability4, "InputTag.Ability.4","技能4(R)");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_Camera_Zoom, "InputTag.Camera.Zoom", "相机缩放");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InputTag_ClickMove, "InputTag.ClickMove", "点击寻路");
-
-	// 连段技能
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Combo_1, "Ability.Combo.1", "连段1");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Combo_2, "Ability.Combo.2", "连段2");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Ability_Combo_3, "Ability.Combo.3", "连段3");
 
 	// 初始化状态
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(InitState_Spawned,          "InitState.Spawned",          "已生成");
@@ -52,4 +57,8 @@ namespace FDGameplayTags
 
 	// 消息通道
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Message_Experience_Loaded, "Message.Experience.Loaded", "Experience加载完成");
+
+	// 移动模式
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Movement_Mode_Grounded, "FD.Movement.Mode.Grounded", "地面");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Movement_Mode_InAir,    "FD.Movement.Mode.InAir",    "空中");
 }

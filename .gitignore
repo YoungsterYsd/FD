@@ -49,6 +49,9 @@ __pycache__/
 
 # OS files
 Thumbs.db
+
+# Plugins (third-party)
+Plugins/
 .DS_Store
 Desktop.ini
 

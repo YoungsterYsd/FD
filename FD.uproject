@@ -55,15 +55,23 @@
 			]
 		},
 		{
-			"Name": "UnrealMCP",
-			"Enabled": true
-		},
-		{
 			"Name": "StructUtils",
 			"Enabled": true
 		},
 		{
+			"Name": "MotionWarping",
+			"Enabled": true
+		},
+		{
+			"Name": "AnimationWarping",
+			"Enabled": true
+		},
+		{
 			"Name": "UnLua",
+			"Enabled": true
+		},
+		{
+			"Name": "Chooser",
 			"Enabled": true
 		}
 	]

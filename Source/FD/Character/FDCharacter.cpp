@@ -5,15 +5,15 @@
 #include "FDGameCameraComponent.h"
 #include "FDGameHeroComponent.h"
 #include "FDSkillComponent.h"
+#include "FDCharacterMovementComponent.h"
 #include "AbilitySystem/Attributes/FDAttributeComponent.h"
-#include "LogChannels/FDLogChannels.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "Camera/CameraComponent.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDCharacter)
 
 AFDCharacter::AFDCharacter(const FObjectInitializer& ObjectInitializer)
-    : Super(ObjectInitializer)
+    : Super(ObjectInitializer.SetDefaultSubobjectClass<UFDCharacterMovementComponent>(CharacterMovementComponentName))
 {
     PawnExtComp   = CreateDefaultSubobject<UFDGamePawnExtensionComponent>(TEXT("PawnExtension"));
     CameraComp    = CreateDefaultSubobject<UFDGameCameraComponent>(TEXT("GameCamera"));
@@ -63,4 +63,10 @@ void AFDCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     UGameFrameworkComponentManager::RemoveGameFrameworkComponentReceiver(this);
     Super::EndPlay(EndPlayReason);
+}
+
+void AFDCharacter::PostInitializeComponents()
+{
+    Super::PostInitializeComponents();
+    GetMesh()->AddTickPrerequisiteActor(this);
 }

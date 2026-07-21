@@ -30,7 +30,8 @@ public class FD : ModuleRules
 			"NavigationSystem",
 			"StructUtils",
 			"Json",
-			"JsonUtilities"
+			"JsonUtilities",
+			"AnimGraphRuntime"
 		});
 
 		// FLuaFunction/FLuaTable 模板在头文件中直接调用 Lua C API，

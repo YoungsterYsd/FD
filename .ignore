@@ -1,11 +1,9 @@
 /.git
 /.vscode
 /Content
-/DerivedDataCache
 /Intermediate
 /Plans
 /Saved
 /Plugins/GameplayMessageRouter/Intermediate
 /Plugins/UnLua/Content
 /Plugins/UnLua/Intermediate
-/Plugins/UnrealMCP/Intermediate
