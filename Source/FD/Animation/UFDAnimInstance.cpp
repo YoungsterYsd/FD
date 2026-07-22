@@ -20,7 +20,7 @@ void UFDAnimInstance::NativeInitializeAnimation()
         return;
     }
 
-    CachedMovement = Cast<UFDCharacterMovementComponent>(CachedCharacter->GetCharacterMovement());
+    CachedMovement = CachedCharacter->GetFDCharacterMovement();
 
     if (const AActor* Owner = GetOwningActor())
     {

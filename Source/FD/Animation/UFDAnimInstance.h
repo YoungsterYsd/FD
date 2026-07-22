@@ -122,6 +122,10 @@ public:
     /** Called by FDAbilitySystemComponent when ASC is ready. */
     void InitializeWithAbilitySystem(UAbilitySystemComponent* ASC);
 
+    /** Get the custom movement component for direct access in ABP. */
+    UFUNCTION(BlueprintPure, Category = "Locomotion", meta = (BlueprintThreadSafe))
+    UFDCharacterMovementComponent* GetMovementComponent() const { return CachedMovement.Get(); }
+
 private:
     /** Cached vel from previous frame for TurnAngle calculation */
     FVector PreviousVelocity = FVector::ZeroVector;

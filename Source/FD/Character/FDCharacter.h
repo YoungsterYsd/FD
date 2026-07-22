@@ -34,6 +34,9 @@ public:
     UFDAttributeComponent* GetAttributeComponent() const { return AttributeComp; }
     UFDSkillComponent* GetSkillComponent() const { return SkillComp; }
 
+    /** Returns the custom movement component with correct type. */
+    FORCEINLINE class UFDCharacterMovementComponent* GetFDCharacterMovement() const { return Cast<UFDCharacterMovementComponent>(GetCharacterMovement()); }
+
 protected:
     virtual void PreInitializeComponents() override;
     virtual void BeginPlay() override;
