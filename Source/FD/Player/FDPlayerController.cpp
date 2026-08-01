@@ -2,25 +2,19 @@
 
 #include "FDPlayerController.h"
 #include "FDPlayerState.h"
-#include "Character/FDGameCameraComponent.h"
+#include "Character/Component/FDGameCameraComponent.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemComponent.h"
-#include "AbilitySystemGlobals.h"
-#include "GameplayTags/FDGameplayTags.h"
 #include "Camera/FDCameraMode.h"
 #include "AbilitySystem/FDAbilitySystemComponent.h"
-#include "AbilitySystemInterface.h"
 #include "LogChannels/FDLogChannels.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerState.h"
-#include "Blueprint/AIBlueprintHelperLibrary.h"
 #include "InputActionValue.h"
 #include "EnhancedInputSubsystems.h"
 #include "InputMappingContext.h"
 #include "Engine/LocalPlayer.h"
-#include "NiagaraSystem.h"
-#include "NiagaraFunctionLibrary.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDPlayerController)
 
@@ -63,6 +57,12 @@ void AFDPlayerController::OnPossess(APawn* InPawn)
         CamComp->ActivateDefaultCamera();
     }
 
+    // 缓存 ASC 引用，供 Tick 直接使用（避免逐帧 GetPawn + Cast 链）
+    if (AFDPlayerState* PS = InPawn->GetPlayerState<AFDPlayerState>())
+    {
+        CachedASC = PS->GetFDAbilitySystemComponent();
+    }
+
     // 注入 InputMappingContext
     if (IsLocalPlayerController() && InputMappingContext)
     {
@@ -82,43 +82,10 @@ void AFDPlayerController::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 
-    UpdateControlRotationFromCamera();
-
-    // Process ability input queue (calls TryActivateAbility for pressed InputTags)
-    if (APawn* ControlledPawn = GetPawn())
+    // 使用缓存的 ASC 引用处理技能输入（OnPossess 中缓存，避免逐帧查找）
+    if (CachedASC)
     {
-        if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(ControlledPawn))
-        {
-            if (UAbilitySystemComponent* ASC = ASI->GetAbilitySystemComponent())
-            {
-                if (UFDAbilitySystemComponent* FD_ASC = Cast<UFDAbilitySystemComponent>(ASC))
-                {
-                    FD_ASC->ProcessAbilityInput(DeltaSeconds, false);
-                }
-            }
-        }
-        // Fallback: ASC might be on PlayerState
-        if (APlayerState* PS = ControlledPawn->GetPlayerState())
-        {
-            if (IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(PS))
-            {
-                if (UFDAbilitySystemComponent* FD_ASC = Cast<UFDAbilitySystemComponent>(ASI->GetAbilitySystemComponent()))
-                {
-                    FD_ASC->ProcessAbilityInput(DeltaSeconds, false);
-                }
-            }
-        }
-    }
-}
-
-void AFDPlayerController::UpdateControlRotationFromCamera()
-{
-    if (APawn* ControlledPawn = GetPawn())
-    {
-        if (UCameraComponent* Cam = ControlledPawn->FindComponentByClass<UCameraComponent>())
-        {
-            SetControlRotation(Cam->GetComponentRotation());
-        }
+        CachedASC->ProcessAbilityInput(DeltaSeconds, false);
     }
 }
 
@@ -130,21 +97,6 @@ void AFDPlayerController::HandleWASDMove(const FInputActionValue& Value)
         return;
     }
 
-    // 检查 PlayerState 的 ASC 是否有 Status.MovementLocked Tag（ASC 在 PlayerState 上！）
-    if (const APlayerState* PS = ControlledPawn->GetPlayerState())
-    {
-        if (const UAbilitySystemComponent* ASC = PS->FindComponentByClass<UAbilitySystemComponent>())
-        {
-            if (ASC->HasMatchingGameplayTag(FDGameplayTags::Status_MovementLocked))
-            {
-                return;
-            }
-        }
-    }
-
-    // WASD 按下时取消点击寻路
-    bClickMoveActive = false;
-
     const FVector2D MovementVector = Value.Get<FVector2D>();
     const FRotator YawRotation(0.f, GetControlRotation().Yaw, 0.f);
 
@@ -153,29 +105,6 @@ void AFDPlayerController::HandleWASDMove(const FInputActionValue& Value)
 
     ControlledPawn->AddMovementInput(ForwardDirection, MovementVector.Y);
     ControlledPawn->AddMovementInput(RightDirection, MovementVector.X);
-}
-
-void AFDPlayerController::HandleClickToMove(const FInputActionValue& Value)
-{
-    bClickMoveActive = true;
-
-    FHitResult Hit;
-    if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
-    {
-        CachedDestination = Hit.Location;
-        SetNewMoveDestination(CachedDestination);
-    }
-}
-
-void AFDPlayerController::SetNewMoveDestination(const FVector& Destination)
-{
-    APawn* ControlledPawn = GetPawn();
-    if (!ControlledPawn)
-    {
-        return;
-    }
-
-    UAIBlueprintHelperLibrary::SimpleMoveToLocation(this, Destination);
 }
 
 UFDGameCameraComponent* AFDPlayerController::GetCameraComponent() const

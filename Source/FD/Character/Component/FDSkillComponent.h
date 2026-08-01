@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Abilities/FDAbilitySet.h"
+#include "Character/Data/FDAbilitySet.h"
 #include "FDSkillComponent.generated.h"
 
 /**

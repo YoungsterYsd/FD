@@ -2,7 +2,7 @@
 
 #include "UFDAnimInstance.h"
 #include "Character/FDCharacter.h"
-#include "Character/FDCharacterMovementComponent.h"
+#include "Character/Component/FDCharacterMovementComponent.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemGlobals.h"
 #include "GameFramework/CharacterMovementComponent.h"

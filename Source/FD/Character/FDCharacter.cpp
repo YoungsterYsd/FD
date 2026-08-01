@@ -1,11 +1,11 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
 #include "FDCharacter.h"
-#include "FDGamePawnExtensionComponent.h"
-#include "FDGameCameraComponent.h"
-#include "FDGameHeroComponent.h"
-#include "FDSkillComponent.h"
-#include "FDCharacterMovementComponent.h"
+#include "Character/Component/FDGamePawnExtensionComponent.h"
+#include "Character/Component/FDGameCameraComponent.h"
+#include "Character/Component/FDGameHeroComponent.h"
+#include "Character/Component/FDSkillComponent.h"
+#include "Character/Component/FDCharacterMovementComponent.h"
 #include "AbilitySystem/Attributes/FDAttributeComponent.h"
 #include "Components/GameFrameworkComponentManager.h"
 #include "Camera/CameraComponent.h"
@@ -68,5 +68,6 @@ void AFDCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void AFDCharacter::PostInitializeComponents()
 {
     Super::PostInitializeComponents();
+    //确保 Character 的 Tick 在 SkeletalMeshComponent 的 Tick 之前执行
     GetMesh()->AddTickPrerequisiteActor(this);
 }

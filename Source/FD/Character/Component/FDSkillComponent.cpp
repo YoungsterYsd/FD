@@ -1,7 +1,7 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
 #include "FDSkillComponent.h"
-#include "Abilities/FDAbilitySet.h"
+#include "Character/Data/FDAbilitySet.h"
 #include "AbilitySystemComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerState.h"

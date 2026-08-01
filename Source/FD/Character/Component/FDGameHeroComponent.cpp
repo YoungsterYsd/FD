@@ -6,10 +6,10 @@
 #include "AbilitySystem/FDAbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
 #include "GameplayTags/FDGameplayTags.h"
-#include "FDGameCameraComponent.h"
+#include "Character/Component/FDGameCameraComponent.h"
 #include "LogChannels/FDLogChannels.h"
 #include "Character/FDCharacter.h"
-#include "Character/FDCharacterMovementComponent.h"
+#include "Character/Component/FDCharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "GameFramework/Pawn.h"
@@ -84,12 +84,6 @@ void UFDGameHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCom
 					CamComp, &UFDGameCameraComponent::AdjustZoom);
 			}
 			UE_LOG(LogFD, Log, TEXT("HeroComponent: Bound InputTag.Camera.Zoom -> %s"), *GetNameSafe(Binding.InputAction.Get()));
-		}
-		else if (Binding.InputTag == FDGameplayTags::InputTag_ClickMove)
-		{
-			EnhancedIC->BindAction(Binding.InputAction, ETriggerEvent::Started,
-				PC, &AFDPlayerController::HandleClickToMove);
-			UE_LOG(LogFD, Log, TEXT("HeroComponent: Bound InputTag.ClickMove -> %s"), *GetNameSafe(Binding.InputAction.Get()));
 		}
 	}
 

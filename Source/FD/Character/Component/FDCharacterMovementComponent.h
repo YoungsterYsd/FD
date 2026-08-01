@@ -25,9 +25,15 @@ public:
     /** Get the current battle facing target, or nullptr. */
     AActor* GetBattleFacingTarget() const { return BattleFacingTarget.Get(); }
 
+    /** 检查是否被 GameplayTag 锁定移动（如技能蓄力期间） */
+    bool IsMovementLocked() const;
+
 public:
     virtual float GetMaxAcceleration() const override;
     virtual float GetMaxBrakingDeceleration() const override;
+
+    /** 当移动锁定时拒绝非强制输入，由 CMC 自行拦截 */
+    virtual void AddInputVector(FVector WorldVector, bool bForce) override;
 
     virtual void PhysicsRotation(float DeltaTime) override;
 

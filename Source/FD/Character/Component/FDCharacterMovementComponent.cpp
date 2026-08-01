@@ -1,6 +1,11 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
-#include "Character/FDCharacterMovementComponent.h"
+#include "Character/Component/FDCharacterMovementComponent.h"
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
+#include "GameplayTags/FDGameplayTags.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerState.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(FDCharacterMovementComponent)
 
@@ -75,4 +80,50 @@ void UFDCharacterMovementComponent::SetBattleFacingTarget(AActor* Target)
 bool UFDCharacterMovementComponent::DoJump(bool bReplayingMoves, float DeltaTime)
 {
     return Super::DoJump(bReplayingMoves, DeltaTime);
+}
+
+bool UFDCharacterMovementComponent::IsMovementLocked() const
+{
+    const AActor* Owner = GetOwner();
+    if (!Owner)
+    {
+        return false;
+    }
+
+    // Try owner's ASC first (NPC pattern: ASC on Character)
+    if (const IAbilitySystemInterface* ASI = Cast<IAbilitySystemInterface>(Owner))
+    {
+        if (const UAbilitySystemComponent* ASC = ASI->GetAbilitySystemComponent())
+        {
+            if (ASC->HasMatchingGameplayTag(FDGameplayTags::Status_MovementLocked))
+            {
+                return true;
+            }
+        }
+    }
+
+    // Try PlayerState's ASC (player pattern: ASC on PlayerState)
+    if (const APawn* OwnerPawn = Cast<APawn>(Owner))
+    {
+        if (const APlayerState* PS = OwnerPawn->GetPlayerState())
+        {
+            if (const UAbilitySystemComponent* ASC = PS->FindComponentByClass<UAbilitySystemComponent>())
+            {
+                if (ASC->HasMatchingGameplayTag(FDGameplayTags::Status_MovementLocked))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+void UFDCharacterMovementComponent::AddInputVector(FVector WorldVector, bool bForce)
+{
+    if (!IsMovementLocked() || bForce)
+    {
+        Super::AddInputVector(WorldVector, bForce);
+    }
 }
