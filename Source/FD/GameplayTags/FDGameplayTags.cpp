@@ -61,4 +61,26 @@ namespace FDGameplayTags
 	// 移动模式
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Movement_Mode_Grounded, "FD.Movement.Mode.Grounded", "地面");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(Movement_Mode_InAir,    "FD.Movement.Mode.InAir",    "空中");
+
+	// 角色状态 (CharState)
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharState_Idle,     "FD.CharState.Idle",     "静止");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharState_Walk,     "FD.CharState.Walk",     "走路");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharState_Run,      "FD.CharState.Run",      "跑步");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharState_Sprint,   "FD.CharState.Sprint",   "冲刺");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharState_InBattle, "FD.CharState.InBattle", "战斗中");
+
+	// 移动方向 (八方向)
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_0,    "FD.Locomotion.MoveDirection.F_0",    "前 0°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_L_45, "FD.Locomotion.MoveDirection.F_L_45", "前左 45°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_R_45, "FD.Locomotion.MoveDirection.F_R_45", "前右 45°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_L_90,   "FD.Locomotion.MoveDirection.L_90",   "左 90°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_R_90,   "FD.Locomotion.MoveDirection.R_90",   "右 90°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_180,  "FD.Locomotion.MoveDirection.B_180",  "后 180°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_L_45, "FD.Locomotion.MoveDirection.B_L_45", "后左 45°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_R_45, "FD.Locomotion.MoveDirection.B_R_45", "后右 45°");
+
+	// 动画阶段
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimPhase_Start, "FD.Locomotion.AnimPhase.Start", "起始");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimPhase_Loop,  "FD.Locomotion.AnimPhase.Loop",  "循环");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimPhase_Stop,   "FD.Locomotion.AnimPhase.Stop",   "停止");
 }

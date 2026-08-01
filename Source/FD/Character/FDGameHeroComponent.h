@@ -32,6 +32,12 @@ protected:
 	/** WASD 移动回调 */
 	void Input_Move(const FInputActionValue& Value);
 
+	/** 跳跃按下 */
+	void Input_Jump(const FInputActionValue& Value);
+
+	/** 跳跃释放 */
+	void Input_StopJump(const FInputActionValue& Value);
+
 	/** 技能按键按下 —— 后续阶段经缓冲层转发到 ASC */
 	void Input_AbilityPressed(FGameplayTag InputTag);
 
@@ -43,4 +49,27 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Input")
 	TObjectPtr<const UFDInputConfig> InputConfig;
+
+	// ===== 战斗状态 =====
+
+public:
+	/** Whether the character is currently locked in battle with a target. */
+	UFUNCTION(BlueprintPure, Category = "Combat")
+	bool IsInBattle() const { return bInBattle; }
+
+	/** Enter or exit battle mode. Disables orient-to-movement when in battle. */
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void SetInBattle(bool bEnabled);
+
+	/** Set the enemy actor to face during battle. */
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void SetBattleTarget(AActor* Target);
+
+	// ===== 战斗状态 =====
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	bool bInBattle = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	TWeakObjectPtr<AActor> BattleTarget;
 };

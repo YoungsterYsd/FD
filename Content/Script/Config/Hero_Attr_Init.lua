@@ -15,7 +15,7 @@ local Hero_Attr_Init = {
 		DmgDec = 0,
 		AttackSpeed = 1,
 		CastSpeed = 1,
-		MoveSpeed = 600,
+		MoveSpeed = 1000,
 		BodyStrength = 50,
 	},
 	[1002] = {

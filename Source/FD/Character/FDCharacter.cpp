@@ -28,7 +28,7 @@ AFDCharacter::AFDCharacter(const FObjectInitializer& ObjectInitializer)
 
     // Top-down movement configuration
     UCharacterMovementComponent* MoveComp = GetCharacterMovement();
-    MoveComp->bConstrainToPlane = true;
+    MoveComp->bConstrainToPlane = false;
     MoveComp->bSnapToPlaneAtStart = true;
     MoveComp->bOrientRotationToMovement = true;
     MoveComp->RotationRate = FRotator(0.f, 640.f, 0.f);

@@ -8,9 +8,12 @@
 #include "GameplayTags/FDGameplayTags.h"
 #include "FDGameCameraComponent.h"
 #include "LogChannels/FDLogChannels.h"
+#include "Character/FDCharacter.h"
+#include "Character/FDCharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
 #include "InputActionValue.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/PlayerState.h"
 
@@ -64,7 +67,11 @@ void UFDGameHeroComponent::InitializePlayerInput(UInputComponent* PlayerInputCom
 		}
 		else if (Binding.InputTag == FDGameplayTags::InputTag_Jump)
 		{
-			// 预留
+			EnhancedIC->BindAction(Binding.InputAction, ETriggerEvent::Started,
+				this, &UFDGameHeroComponent::Input_Jump);
+			EnhancedIC->BindAction(Binding.InputAction, ETriggerEvent::Completed,
+				this, &UFDGameHeroComponent::Input_StopJump);
+			UE_LOG(LogFD, Log, TEXT("HeroComponent: Bound InputTag.Jump -> %s"), *GetNameSafe(Binding.InputAction.Get()));
 		}
 		else if (Binding.InputTag == FDGameplayTags::InputTag_Camera_Zoom)
 		{
@@ -168,4 +175,65 @@ void UFDGameHeroComponent::Input_AbilityReleased(FGameplayTag InputTag)
 void UFDGameHeroComponent::Input_Interact(const FInputActionValue& Value)
 {
 	UE_LOG(LogFD, Log, TEXT("Interact pressed"));
+}
+
+void UFDGameHeroComponent::Input_Jump(const FInputActionValue& Value)
+{
+	APawn* Pawn = GetPawn<APawn>();
+	if (!Pawn)
+	{
+		return;
+	}
+
+	// 检查 MovementLocked
+	if (const APlayerState* PS = Pawn->GetPlayerState())
+	{
+		if (const UAbilitySystemComponent* ASC = PS->FindComponentByClass<UAbilitySystemComponent>())
+		{
+			if (ASC->HasMatchingGameplayTag(FDGameplayTags::Status_MovementLocked))
+			{
+				return;
+			}
+		}
+	}
+
+	if (ACharacter* Character = Cast<ACharacter>(Pawn))
+	{
+		Character->Jump();
+		UE_LOG(LogFD, Log, TEXT("Jump pressed"));
+	}
+}
+
+void UFDGameHeroComponent::Input_StopJump(const FInputActionValue& Value)
+{
+	if (ACharacter* Character = Cast<ACharacter>(GetPawn<APawn>()))
+	{
+		Character->StopJumping();
+	}
+}
+
+// ===== Battle State =====
+
+void UFDGameHeroComponent::SetInBattle(bool bEnabled)
+{
+	if (bInBattle == bEnabled) { return; }
+	bInBattle = bEnabled;
+
+	if (!bEnabled)
+	{
+		if (AFDCharacter* Char = Cast<AFDCharacter>(GetPawn<APawn>()))
+		{
+			Char->GetFDCharacterMovement()->SetBattleFacingTarget(nullptr);
+		}
+	}
+}
+
+void UFDGameHeroComponent::SetBattleTarget(AActor* Target)
+{
+	BattleTarget = Target;
+
+	if (AFDCharacter* Char = Cast<AFDCharacter>(GetPawn<APawn>()))
+	{
+		Char->GetFDCharacterMovement()->SetBattleFacingTarget(Target);
+	}
 }

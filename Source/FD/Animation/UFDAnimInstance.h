@@ -83,6 +83,13 @@ public:
     UPROPERTY(BlueprintReadOnly, Category = "Locomotion", Transient)
     bool bHasMovementInput = false;
 
+    /** Speed thresholds for gait transitions. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Locomotion|Gait")
+    float WalkToRunSpeed = 200.0f;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Locomotion|Gait")
+    float RunToSprintSpeed = 450.0f;
+
     // ===== 状态机 Transition 条件（BlueprintPure，供 ABP 直接使用） =====
 
     /** 是否有移动速度 */
@@ -117,6 +124,7 @@ public:
     UFDAnimInstance() = default;
 
     virtual void NativeInitializeAnimation() override;
+    virtual void NativeUpdateAnimation(float DeltaSeconds) override;
     virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 
     /** Called by FDAbilitySystemComponent when ASC is ready. */
@@ -137,6 +145,14 @@ private:
 
     /** Calculate signed angle between velocity and actor forward direction. [-180, 180] degrees. */
     static float CalculateDirection(const FVector& Velocity, const FRotator& ActorRotation);
+
+    /** Convert a direction angle to the nearest 8-direction MoveDirection tag. */
+    UFUNCTION(BlueprintPure, Category = "Locomotion", meta = (BlueprintThreadSafe))
+    static FGameplayTag AngleToMoveDirectionTag(float Angle);
+
+    /** Map Speed to CharState tag (Idle/Walk/Run/Sprint) based on configurable thresholds. */
+    UFUNCTION(BlueprintPure, Category = "Locomotion|Gait", meta = (BlueprintThreadSafe))
+    FGameplayTag GetLocomotionStateTag() const;
 
     UPROPERTY(EditDefaultsOnly, Category = "FD|Animation")
     FGameplayTagBlueprintPropertyMap GameplayTagPropertyMap;
