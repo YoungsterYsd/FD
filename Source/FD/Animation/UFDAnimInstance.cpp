@@ -1,6 +1,7 @@
 // Copyright YoungSterYSD. All Rights Reserved.
 
 #include "UFDAnimInstance.h"
+#include "Animation/FDAnimationSet.h"
 #include "Character/FDCharacter.h"
 #include "Character/Component/FDCharacterMovementComponent.h"
 #include "AbilitySystemComponent.h"
@@ -102,18 +103,27 @@ float UFDAnimInstance::CalculateDirection(const FVector& Vector, const FRotator&
 FGameplayTag UFDAnimInstance::AngleToMoveDirectionTag(float Angle)
 {
     const float AbsAngle = FMath::Abs(Angle);
-    if (AbsAngle <= 22.5f) return FDGameplayTags::MoveDirection_F_0;
+
+    // F_0 / B_180
+    if (AbsAngle <= 22.5f)  return FDGameplayTags::MoveDirection_F_0;
     if (AbsAngle >= 157.5f) return FDGameplayTags::MoveDirection_B_180;
 
     if (Angle > 0.f)
     {
-        if (Angle <= 67.5f)  return FDGameplayTags::MoveDirection_F_R_45;
-        if (Angle <= 112.5f) return FDGameplayTags::MoveDirection_R_90;
+        // 右侧 45°~135° 三等分 → F_R_45 / F_R_90 / B_R_90 / B_R_45
+        if (Angle <= 56.25f)  return FDGameplayTags::MoveDirection_F_R_45;
+        if (Angle <= 90.f)    return FDGameplayTags::MoveDirection_F_R_90;
+        if (Angle <= 123.75f) return FDGameplayTags::MoveDirection_B_R_90;
         return FDGameplayTags::MoveDirection_B_R_45;
     }
-    if (Angle >= -67.5f)  return FDGameplayTags::MoveDirection_F_L_45;
-    if (Angle >= -112.5f) return FDGameplayTags::MoveDirection_L_90;
-    return FDGameplayTags::MoveDirection_B_L_45;
+    else
+    {
+        // 左侧 -45°~-135° 三等分 → F_L_45 / F_L_90 / B_L_90 / B_L_45
+        if (Angle >= -56.25f)  return FDGameplayTags::MoveDirection_F_L_45;
+        if (Angle >= -90.f)    return FDGameplayTags::MoveDirection_F_L_90;
+        if (Angle >= -123.75f) return FDGameplayTags::MoveDirection_B_L_90;
+        return FDGameplayTags::MoveDirection_B_L_45;
+    }
 }
 
 FGameplayTag UFDAnimInstance::GetLocomotionStateTag() const
@@ -122,4 +132,9 @@ FGameplayTag UFDAnimInstance::GetLocomotionStateTag() const
     if (Speed < WalkToRunSpeed)   return FDGameplayTags::CharState_Walk;
     if (Speed < RunToSprintSpeed) return FDGameplayTags::CharState_Run;
     return FDGameplayTags::CharState_Sprint;
+}
+
+UFDAnimationSet* UFDAnimInstance::GetAnimationSet() const
+{
+    return AnimationSet;
 }

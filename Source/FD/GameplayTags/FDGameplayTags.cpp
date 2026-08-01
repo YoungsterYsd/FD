@@ -69,15 +69,17 @@ namespace FDGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharState_Sprint,   "FD.CharState.Sprint",   "冲刺");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(CharState_InBattle, "FD.CharState.InBattle", "战斗中");
 
-	// 移动方向 (八方向)
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_0,    "FD.Locomotion.MoveDirection.F_0",    "前 0°");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_L_45, "FD.Locomotion.MoveDirection.F_L_45", "前左 45°");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_R_45, "FD.Locomotion.MoveDirection.F_R_45", "前右 45°");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_L_90,   "FD.Locomotion.MoveDirection.L_90",   "左 90°");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_R_90,   "FD.Locomotion.MoveDirection.R_90",   "右 90°");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_180,  "FD.Locomotion.MoveDirection.B_180",  "后 180°");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_L_45, "FD.Locomotion.MoveDirection.B_L_45", "后左 45°");
-	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_R_45, "FD.Locomotion.MoveDirection.B_R_45", "后右 45°");
+	// 移动方向 (十方向)
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_0,    "FD.Locomotion.MoveDirection.F_0",    "前      0°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_L_45, "FD.Locomotion.MoveDirection.F_L_45", "前左   45°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_L_90, "FD.Locomotion.MoveDirection.F_L_90", "前左 67.5°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_L_90, "FD.Locomotion.MoveDirection.B_L_90", "后左112.5°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_L_45, "FD.Locomotion.MoveDirection.B_L_45", "后左  135°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_180,  "FD.Locomotion.MoveDirection.B_180",  "后    180°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_R_45, "FD.Locomotion.MoveDirection.B_R_45", "后右  135°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_B_R_90, "FD.Locomotion.MoveDirection.B_R_90", "后右112.5°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_R_90, "FD.Locomotion.MoveDirection.F_R_90", "前右 67.5°");
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(MoveDirection_F_R_45, "FD.Locomotion.MoveDirection.F_R_45", "前右   45°");
 
 	// 动画阶段
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimPhase_Start, "FD.Locomotion.AnimPhase.Start", "起始");

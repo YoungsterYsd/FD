@@ -134,6 +134,16 @@ public:
     UFUNCTION(BlueprintPure, Category = "Locomotion", meta = (BlueprintThreadSafe))
     UFDCharacterMovementComponent* GetMovementComponent() const { return CachedMovement.Get(); }
 
+    // ===== 动画资产 =====
+
+    /** Animation lookup table set from Character or ABP defaults. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation")
+    TObjectPtr<class UFDAnimationSet> AnimationSet;
+
+    /** Thread-safe getter for the animation lookup table. */
+    UFUNCTION(BlueprintPure, Category = "Animation", meta = (BlueprintThreadSafe))
+    UFDAnimationSet* GetAnimationSet() const;
+
 private:
     /** Cached vel from previous frame for TurnAngle calculation */
     FVector PreviousVelocity = FVector::ZeroVector;

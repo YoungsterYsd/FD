@@ -71,7 +71,7 @@ public:
      * @param Query - The current state tag container to match against.
      * @return The best matching animation, or nullptr if no entries match at all.
      */
-    UFUNCTION(BlueprintCallable, Category = "FD|Animation")
+    UFUNCTION(BlueprintCallable, Category = "FD|Animation", meta = (BlueprintThreadSafe))
     UAnimSequence* FindBestMatch(const FGameplayTagContainer& Query) const;
 
 protected:

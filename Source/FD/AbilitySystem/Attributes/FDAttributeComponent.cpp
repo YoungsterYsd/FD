@@ -76,7 +76,9 @@ void UFDAttributeComponent::BeginPlay()
 	// Apply MoveSpeed to CharacterMovement
 	if (ACharacter* Char = Cast<ACharacter>(GetOwner()))
 	{
-		Char->GetCharacterMovement()->MaxWalkSpeed = Data->MoveSpeed;
+		UCharacterMovementComponent* CMC = Char->GetCharacterMovement();
+		CMC->MaxWalkSpeed = FMath::Max(0.f, Data->MoveSpeed);
+		CMC->MinAnalogWalkSpeed = FMath::Min(CMC->MinAnalogWalkSpeed, CMC->MaxWalkSpeed);
 	}
 
 	UE_LOG(LogFDGAS, Log, TEXT("[FDConfig] FDAttributeComponent - Initialized CharacterID=%d (HP=%.0f, ATK=%.0f, DEF=%.0f, SPD=%.0f)"),
