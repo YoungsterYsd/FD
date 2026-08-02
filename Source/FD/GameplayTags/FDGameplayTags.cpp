@@ -85,4 +85,7 @@ namespace FDGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimPhase_Start, "FD.Locomotion.AnimPhase.Start", "起始");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimPhase_Loop,  "FD.Locomotion.AnimPhase.Loop",  "循环");
 	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimPhase_Stop,   "FD.Locomotion.AnimPhase.Stop",   "停止");
+	
+	//过渡动画
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(AnimTrans_Pivot, "FD.Locomotion.AnimTrans.Pivot", "过渡动画");
 }

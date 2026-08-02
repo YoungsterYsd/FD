@@ -82,6 +82,21 @@ void UFDAnimInstance::RefreshLocomotionData(float DeltaSeconds)
     bIsOnGround = CachedMovement->IsMovingOnGround();
     bHasMovementInput = !CachedMovement->GetPendingInputVector().IsNearlyZero();
     bPrevIsOnGround = bIsOnGround;
+
+    // Aim offset: compute Yaw/Pitch from character to target
+    if (bHasAimTarget)
+    {
+        const FVector MyLoc = CachedCharacter->GetActorLocation();
+        const FVector LocalOffset = ActorQuat.UnrotateVector(AimTargetLocation - MyLoc);
+        AimYaw = FMath::RadiansToDegrees(FMath::Atan2(LocalOffset.Y, LocalOffset.X));
+        const float HorizDist = FMath::Sqrt(LocalOffset.X * LocalOffset.X + LocalOffset.Y * LocalOffset.Y);
+        AimPitch = FMath::RadiansToDegrees(FMath::Atan2(LocalOffset.Z, HorizDist));
+    }
+    else
+    {
+        AimYaw = 0.f;
+        AimPitch = 0.f;
+    }
 }
 
 float UFDAnimInstance::CalculateDirection(const FVector& Vector, const FRotator& Rotation)
@@ -137,4 +152,16 @@ FGameplayTag UFDAnimInstance::GetLocomotionStateTag() const
 UFDAnimationSet* UFDAnimInstance::GetAnimationSet() const
 {
     return AnimationSet;
+}
+
+void UFDAnimInstance::SetAimTargetLocation(FVector WorldLocation)
+{
+    AimTargetLocation = WorldLocation;
+    bHasAimTarget = true;
+}
+
+void UFDAnimInstance::ClearAimTarget()
+{
+    bHasAimTarget = false;
+    AimTargetLocation = FVector::ZeroVector;
 }

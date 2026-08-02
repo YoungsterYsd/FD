@@ -144,6 +144,24 @@ public:
     UFUNCTION(BlueprintPure, Category = "Animation", meta = (BlueprintThreadSafe))
     UFDAnimationSet* GetAnimationSet() const;
 
+    // ===== Aim Offset =====
+
+    /** World-space target location for idle aiming. Set by Character/Combat system. */
+    UFUNCTION(BlueprintCallable, Category = "Aim")
+    void SetAimTargetLocation(FVector WorldLocation);
+
+    /** Clear the aim target (e.g. when leaving idle). */
+    UFUNCTION(BlueprintCallable, Category = "Aim")
+    void ClearAimTarget();
+
+    /** Horizontal aim angle for AimOffset node [-180, 180]. Positive = target to the right. */
+    UPROPERTY(BlueprintReadOnly, Category = "Aim", Transient)
+    float AimYaw = 0.f;
+
+    /** Vertical aim angle for AimOffset node. Positive = target above. */
+    UPROPERTY(BlueprintReadOnly, Category = "Aim", Transient)
+    float AimPitch = 0.f;
+
 private:
     /** Cached vel from previous frame for TurnAngle calculation */
     FVector PreviousVelocity = FVector::ZeroVector;
@@ -166,4 +184,10 @@ private:
 
     UPROPERTY(EditDefaultsOnly, Category = "FD|Animation")
     FGameplayTagBlueprintPropertyMap GameplayTagPropertyMap;
+
+    /** World-space target for aim offset calculation. */
+    FVector AimTargetLocation = FVector::ZeroVector;
+
+    /** Whether a valid aim target has been set. */
+    bool bHasAimTarget = false;
 };

@@ -88,4 +88,6 @@ namespace FDGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(AnimPhase_Start);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(AnimPhase_Loop);
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(AnimPhase_Stop);
+	//过渡动画
+	UE_DECLARE_GAMEPLAY_TAG_EXTERN(AnimTrans_Pivot);
 }
